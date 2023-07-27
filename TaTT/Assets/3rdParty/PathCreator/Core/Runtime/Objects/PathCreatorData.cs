@@ -30,16 +30,21 @@ namespace PathCreation {
         public bool globalDisplaySettingsFoldout;
         public bool keepConstantHandleSize;
 
+        //weights
+        public float globalWeight = 1f;
+        
         // vertex display settings
         public bool showNormalsInVertexMode;
         public bool showBezierPathInVertexMode;
-
+        public bool showWeightsInVertexMode;
+        
         // Editor display states
         public bool showDisplayOptions;
         public bool showPathOptions = true;
         public bool showVertexPathDisplayOptions;
         public bool showVertexPathOptions = true;
         public bool showNormals;
+        public bool showWeights;
         public bool showNormalsHelpInfo;
         public int tabIndex;
 
