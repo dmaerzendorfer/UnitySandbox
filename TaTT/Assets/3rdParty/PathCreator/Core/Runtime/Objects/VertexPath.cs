@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Codice.Client.BaseCommands;
 using PathCreation.Utility;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ namespace PathCreation
         public readonly Vector3[] localTangents;
         public readonly Vector3[] localNormals;
         public readonly float[] localWeights;
+        public readonly List<TrackTrigger> localTriggers;
 
         /// Percentage along the path at each vertex (0 being start of path, and 1 being the end)
         public readonly float[] times;
@@ -77,6 +79,8 @@ namespace PathCreation
             isClosedLoop = bezierPath.IsClosed;
             int numVerts = pathSplitData.vertices.Count;
             length = pathSplitData.cumulativeLength[numVerts - 1];
+
+            localTriggers = bezierPath.Triggers;
 
             localPoints = new Vector3[numVerts];
             localNormals = new Vector3[numVerts];
@@ -233,12 +237,53 @@ namespace PathCreation
             return GetWeightAtTime(t, endOfPathInstruction);
         }
 
+
+        public List<TrackTrigger> GetNotPassedTriggersAtDistance(float dst,
+            EndOfPathInstruction endOfPathInstruction = EndOfPathInstruction.Loop)
+        {
+            float t = GetResolvedPercentageAtDistance(dst, endOfPathInstruction);
+            var notPassedTriggers = new List<TrackTrigger>();
+            foreach (var trigger in localTriggers)
+            {
+                if (trigger.position > t)
+                {
+                    notPassedTriggers.Add(trigger);
+                }
+            }
+
+            return notPassedTriggers;
+        }
+
+        public List<TrackTrigger> GetPassedTriggersAtDistance(float dst,
+            EndOfPathInstruction endOfPathInstruction = EndOfPathInstruction.Loop)
+        {
+            float t = GetResolvedPercentageAtDistance(dst, endOfPathInstruction);
+            var passedTriggers = new List<TrackTrigger>();
+            foreach (var trigger in localTriggers)
+            {
+                if (trigger.position <= t)
+                {
+                    passedTriggers.Add(trigger);
+                }
+            }
+
+            return passedTriggers;
+        }
+
         /// Gets forward direction on path based on distance travelled.
         public Vector3 GetDirectionAtDistance(float dst,
             EndOfPathInstruction endOfPathInstruction = EndOfPathInstruction.Loop)
         {
             float t = dst / length;
             return GetDirection(t, endOfPathInstruction);
+        }
+
+        /// Returns where on the path we are with a given distance and endOfPath instruction
+        public float GetResolvedPercentageAtDistance(float dst,
+            EndOfPathInstruction endOfPathInstruction = EndOfPathInstruction.Loop)
+        {
+            float t = dst / length;
+            return ResolveEndofPathInstruction(t, endOfPathInstruction);
         }
 
         /// Gets normal vector on path based on distance travelled.
@@ -335,9 +380,7 @@ namespace PathCreation
 
         #region Internal methods
 
-        /// For a given value 't' between 0 and 1, calculate the indices of the two vertices before and after t. 
-        /// Also calculate how far t is between those two vertices as a percentage between 0 and 1.
-        TimeOnPathData CalculatePercentOnPathData(float t, EndOfPathInstruction endOfPathInstruction)
+        private float ResolveEndofPathInstruction(float t, EndOfPathInstruction endOfPathInstruction)
         {
             // Constrain t based on the end of path instruction
             switch (endOfPathInstruction)
@@ -358,6 +401,15 @@ namespace PathCreation
                     t = Mathf.Clamp01(t);
                     break;
             }
+
+            return t;
+        }
+
+        /// For a given value 't' between 0 and 1, calculate the indices of the two vertices before and after t. 
+        /// Also calculate how far t is between those two vertices as a percentage between 0 and 1.
+        TimeOnPathData CalculatePercentOnPathData(float t, EndOfPathInstruction endOfPathInstruction)
+        {
+            t = ResolveEndofPathInstruction(t, endOfPathInstruction);
 
             int prevIndex = 0;
             int nextIndex = NumPoints - 1;

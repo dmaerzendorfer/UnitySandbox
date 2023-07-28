@@ -4,6 +4,7 @@ using System.Linq;
 using _3rdParty.PathCreator.Core.Runtime.Extensions;
 using PathCreation.Utility;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace PathCreation
 {
@@ -37,6 +38,9 @@ namespace PathCreation
         [SerializeField, HideInInspector] bool boundsUpToDate;
         [SerializeField, HideInInspector] Bounds bounds;
 
+        [SerializeField, HideInInspector] private List<TrackTrigger> triggers;
+
+
         // Normals settings
         [SerializeField, HideInInspector] List<float> perAnchorNormalsAngle;
         [SerializeField, HideInInspector] float globalNormalsAngle;
@@ -47,8 +51,6 @@ namespace PathCreation
         /// every anchor point has a weight for eG how many things to spawn here, how fast to follow path, defaults to 1
         /// </summary>
         [SerializeField, HideInInspector] List<float> perAnchorWeight;
-        //todo add a feature to set weight for every anchor at once
-        //[SerializeField, HideInInspector] float globalWeight;
 
         #endregion
 
@@ -59,6 +61,7 @@ namespace PathCreation
         ///<param name="space"> Determines if the path is in 3d space, or clamped to the xy/xz plane </param>
         public BezierPath(Vector3 centre, bool isClosed = false, PathSpace space = PathSpace.xyz)
         {
+            triggers = new List<TrackTrigger>();
             Vector3 dir = (space == PathSpace.xz) ? Vector3.forward : Vector3.up;
             float width = 2;
             float controlHeight = .5f;
@@ -86,6 +89,7 @@ namespace PathCreation
         public BezierPath(IEnumerable<Vector3> points, bool isClosed = false, PathSpace space = PathSpace.xyz)
         {
             Vector3[] pointsArray = points.ToArray();
+            triggers = new List<TrackTrigger>();
 
             if (pointsArray.Length < 2)
             {
@@ -192,6 +196,19 @@ namespace PathCreation
                     PathSpace previousSpace = space;
                     space = value;
                     UpdateToNewPathSpace(previousSpace);
+                }
+            }
+        }
+
+        public List<TrackTrigger> Triggers
+        {
+            get { return triggers; }
+            set
+            {
+                if (value != triggers)
+                {
+                    triggers = value;
+                    NotifyPathModified();
                 }
             }
         }
