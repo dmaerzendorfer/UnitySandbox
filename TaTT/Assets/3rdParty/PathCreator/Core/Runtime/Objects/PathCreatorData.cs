@@ -44,6 +44,7 @@ namespace PathCreation
         public bool showVertexPathOptions = true;
         public bool showNormals;
         public bool showWeights;
+        public bool showTriggers;
         public bool showNormalsHelpInfo;
         public int tabIndex;
 

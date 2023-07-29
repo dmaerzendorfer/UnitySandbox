@@ -16,6 +16,7 @@ namespace PathCreation
 
         [Header("Appearance")] public float anchorSize = 10;
         public float controlSize = 7f;
+        public float triggerSize = 8f;
 
         [Tooltip("Should the path still be drawn when behind objects in the scene?")]
         public bool visibleBehindObjects = true;
@@ -29,7 +30,7 @@ namespace PathCreation
 
         public HandleType anchorShape;
         public HandleType controlShape;
-
+        public HandleType triggerShape;
 
         [Header("Anchor Colours")] public Color anchor = new Color(0.95f, 0.25f, 0.25f, 0.85f);
         public Color anchorHighlighted = new Color(1, 0.57f, 0.4f);
@@ -47,6 +48,11 @@ namespace PathCreation
         public Color segmentBounds = new Color(1, 1, 1, .4f);
 
         [Header("Vertex Path Colours")] public Color vertexPath = Color.white;
+
+        [Header("Trigger Colours")] public Color enabledTriggerColor = new Color(0, 0, .5f, 0.85f);
+        public Color disabledTriggerColor = new Color(0.3f, 0.3f, 0.6f, 0.4f);
+        public Color selectedTriggerColor = new Color(0.8f, 0.9f, 0f, 0.85f);
+
 
         [Header("Normals")] public Color normals = Color.yellow;
         [Range(0, 1)] public float normalsLength = .1f;

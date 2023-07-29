@@ -4,6 +4,7 @@ using PathCreation.Utility;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace PathCreationEditor
 {
@@ -51,6 +52,7 @@ namespace PathCreationEditor
         int draggingHandleIndex;
         int mouseOverHandleIndex;
         int handleIndexToDisplayAsTransform;
+        int selectedTriggerIndex;
 
         bool shiftLastFrame;
         bool hasUpdatedScreenSpaceLine;
@@ -269,6 +271,29 @@ namespace PathCreationEditor
                     {
                         Undo.RecordObject(creator, "Reset all Weights to 1");
                         bezierPath.SetAllWeights(1);
+                    }
+
+                    GUILayout.Space(inspectorSectionSpacing);
+                }
+
+                data.showTriggers = EditorGUILayout.Foldout(data.showTriggers, new GUIContent("Triggers"), true,
+                    boldFoldoutStyle);
+                if (data.showTriggers)
+                {
+                    EditorGUILayout.HelpBox("Use Shift+LMB whilst this menu is open to add triggers in the editor.",
+                        MessageType.Info);
+
+                    var list = serializedObject.FindProperty("editorData._bezierPath.triggers");
+                    // EditorGUILayout.PropertyField(list, true);
+                    TrackTriggerEditorList.Show(list);
+                    serializedObject.ApplyModifiedProperties();
+
+
+                    if (GUILayout.Button("Add Trigger"))
+                    {
+                        Undo.RecordObject(creator, "Add Trigger");
+                        TrackTrigger tt = new TrackTrigger(true, 0.5f, new UnityEvent());
+                        bezierPath.Triggers.Add(tt);
                     }
 
                     GUILayout.Space(inspectorSectionSpacing);
@@ -711,6 +736,29 @@ namespace PathCreationEditor
                     DrawHandle(i + 1);
                 }
             }
+
+            if (data.showTriggers)
+            {
+                foreach (var trigger in bezierPath.Triggers)
+                {
+                    DrawTriggerHandle(trigger);
+                }
+            }
+        }
+
+        void DrawTriggerHandle(TrackTrigger trigger)
+        {
+            Vector3 handlePosition = creator.path.GetPointAtTime(trigger.position, EndOfPathInstruction.Stop);
+            float triggerHandleSize =
+                GetHandleDiameter(globalDisplaySettings.anchorSize * data.bezierHandleScale, handlePosition);
+            Color c = (trigger.enabled)
+                ? globalDisplaySettings.enabledTriggerColor
+                : globalDisplaySettings.disabledTriggerColor;
+            c = selectedTriggerIndex == trigger.HandleId ? globalDisplaySettings.selectedTriggerColor : c;
+            Handles.color = c;
+            Handles.SphereHandleCap(trigger.HandleId, handlePosition, Quaternion.identity, triggerHandleSize,
+                EventType.Repaint);
+            
         }
 
         void DrawHandle(int i)
