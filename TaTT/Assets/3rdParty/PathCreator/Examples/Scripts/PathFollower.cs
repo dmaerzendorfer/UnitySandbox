@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,6 +18,7 @@ namespace PathCreation.Examples
 
         private float _distanceTravelled;
         private List<TrackTrigger> _passedTriggers;
+        [SerializeField] private float _lastResolvedT = 0f;
 
         public enum FollowDirection
         {
@@ -72,7 +74,9 @@ namespace PathCreation.Examples
                     {
                         _passedTriggers.Add(trigger);
                         if (enableTriggers && trigger.enabled)
+                        {
                             trigger.trackEvent.Invoke();
+                        }
                     }
                 }
 
@@ -81,13 +85,20 @@ namespace PathCreation.Examples
                 //if current endOfPath instruction is reverse -> change foward/backward dir
                 float resolvedT =
                     pathCreator.path.GetResolvedPercentageAtDistance(_distanceTravelled, endOfPathInstruction);
-                if (resolvedT == 0 || resolvedT == 1)
+                bool loopComplete = resolvedT < _lastResolvedT;
+                if (_passedTriggers.Count == pathCreator.path.localTriggers.Count && loopComplete)
                 {
-                    _direction = _direction == FollowDirection.Forwards
-                        ? FollowDirection.Backwards
-                        : FollowDirection.Forwards;
                     _passedTriggers.Clear();
                 }
+
+                _lastResolvedT = resolvedT;
+                // if (resolvedT == 0 || resolvedT == 1)
+                // {
+                //     _direction = _direction == FollowDirection.Forwards
+                //         ? FollowDirection.Backwards
+                //         : FollowDirection.Forwards;
+                //     _passedTriggers.Clear();
+                // }
             }
         }
 
