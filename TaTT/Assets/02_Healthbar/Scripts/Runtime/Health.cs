@@ -1,25 +1,29 @@
+using System;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
-//todo: health script with:
-//- dmg method
-//- heal method
-//- event for on health change
-//- event for on dmg
-//- event for on heal
-//- event for death
-//- a set invincible for seconds method
-//- display mode ->bar, circle, hearts
-//- a custom editor for setting the display mode? depends on if needed
-// -> in the editor a button for testing the dmg and heal methods
-//- anything else that comes to mind
+//check this out!
+//https://www.reddit.com/r/Unity3D/comments/wcxgbt/simple_procedural_health_bars_shaderproject_link/
+//final todo: add the shader thingy as a builtin option as well :)
 
+//additional todo: make a demo scene with a cube getting hit and also being healed by friendly priest cube
 
 public class Health : MonoBehaviour
 {
     [Header("Health Settings")] [Description("The maximum Health.")]
-    public float maxHealth = 5f;
+    private float _maxHealth = 5f;
+
+    public float MaxHealth
+    {
+        get { return _maxHealth; }
+        set
+        {
+            _maxHealth = value;
+            UpdateDisplay();
+        }
+    }
 
     [Description("Wether the health should be displayed in the ui.")]
     private bool _displayBar = true;
@@ -32,25 +36,22 @@ public class Health : MonoBehaviour
             if (_displayBar != value)
             {
                 _displayBar = value;
-                //todo: handle enabling/disabling of the ui.
+                displayCanvas.SetActive(_displayBar);
             }
         }
     }
 
     public enum DeathResponse
     {
-        DoNothing,
-        DisableGameObject,
-        DestroyGameObject
+        DoNothing = 0,
+        DisableGameObject = 1,
+        DestroyGameObject = 2
     }
 
-    //todo: make this into a foldout -> customEditor?! -> other soultion would be to make my own attribute -> too much work, or use a package that does it for me eG Odin
-    //see: https://docs.unity3d.com/ScriptReference/EditorGUILayout.Foldout.html
-    //fuck it, make everything in myself in the custom editor
     [Header("Death Settings")] [Description("What happens per on death, the death event is always fired.")]
     public DeathResponse deathHandling = DeathResponse.DisableGameObject;
 
-    [Header("Event Settings")] [Description("Fired when health reaches <=0.")]
+    [Description("Fired when health reaches <=0.")]
     public UnityEvent onDeath;
 
     [Description("Fired whenever someone calls the takeDamage function with a value >0")]
@@ -62,17 +63,34 @@ public class Health : MonoBehaviour
     [Description("Fired whenever health changes.")]
     public UnityEvent onHealthChange;
 
+    [Header("Display Settings")] [Description("Wether to show the healthbar if health is full or not.")]
+    public bool hideOnFullHealth = false;
+
+    #region EditorData
+
+    [HideInInspector] public bool showEventFoldout = true;
+    [HideInInspector] public bool showDisplayFoldout = true;
+
+    #endregion
+
     public enum DisplayOption
     {
         Hidden,
         Bar,
-        Circle,
         Hearts
     }
 
-    //todo: show that in the custom editor under the display options header (and implement the display^^')
-    private DisplayOption _healthDisplay = DisplayOption.Bar;
+    public DisplayOption healthDisplay = DisplayOption.Bar;
 
+    //for bar version of display
+    public GameObject displayCanvas;
+    public Slider healthBarSlider;
+    public Gradient healthBarColor;
+
+    public Image healthBarFill;
+
+    //for individual hearts version of display
+    public HealthHeartBar healthHeartBar;
 
     /// <summary>
     /// Do not use this! use the public property instead so the ui is updated correctly!
@@ -87,10 +105,9 @@ public class Health : MonoBehaviour
             if (_currentHealth != value)
             {
                 _currentHealth = value;
-                //todo: check if it is invoked on start since we set currentHealth to maxHealth.
                 onHealthChange?.Invoke();
 
-                //todo: update the display
+                UpdateDisplay();
 
                 if (_currentHealth <= 0)
                 {
@@ -103,7 +120,7 @@ public class Health : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CurrentHealth = maxHealth;
+        CurrentHealth = _maxHealth;
         InitEvents();
     }
 
@@ -124,7 +141,13 @@ public class Health : MonoBehaviour
             onHeal.Invoke();
         }
 
-        CurrentHealth += healAmount;
+        if (!IsFullHealth())
+            CurrentHealth += healAmount;
+    }
+
+    public bool IsFullHealth()
+    {
+        return _currentHealth == _maxHealth;
     }
 
 
@@ -134,6 +157,36 @@ public class Health : MonoBehaviour
         onDeath ??= new UnityEvent();
         onHeal ??= new UnityEvent();
         onHealthChange ??= new UnityEvent();
+    }
+
+    private void UpdateDisplay()
+    {
+        if (!_displayBar)
+            return;
+        if (hideOnFullHealth && IsFullHealth())
+            return;
+
+        switch (healthDisplay)
+        {
+            case DisplayOption.Hidden:
+                DisplayBar = false;
+                break;
+            case DisplayOption.Bar:
+                if (healthBarFill && healthBarSlider)
+                {
+                    healthBarSlider.maxValue = _maxHealth;
+                    healthBarSlider.value = _currentHealth;
+                    healthBarFill.color = healthBarColor.Evaluate(healthBarSlider.normalizedValue);
+                }
+
+                break;
+            case DisplayOption.Hearts:
+                if (healthHeartBar && Application.isPlaying)
+                    healthHeartBar.DisplayHearts((int)_currentHealth);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     private void HandleDeath()
