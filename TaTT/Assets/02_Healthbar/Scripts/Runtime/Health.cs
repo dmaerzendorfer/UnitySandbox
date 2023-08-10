@@ -4,12 +4,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-//check this out!
-//https://www.reddit.com/r/Unity3D/comments/wcxgbt/simple_procedural_health_bars_shaderproject_link/
-//final todo: add the shader thingy as a builtin option as well :)
-
-//additional todo: make a demo scene with a cube getting hit and also being healed by friendly priest cube
-
 public class Health : MonoBehaviour
 {
     [Header("Health Settings")] [Description("The maximum Health.")]
@@ -78,7 +72,8 @@ public class Health : MonoBehaviour
         Hidden,
         Bar,
         Hearts,
-        Shader
+        Shader // see https://www.reddit.com/r/Unity3D/comments/wcxgbt/simple_procedural_health_bars_shaderproject_link/
+
     }
 
     public DisplayOption healthDisplay = DisplayOption.Bar;
