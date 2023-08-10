@@ -68,6 +68,11 @@ namespace _02_Healthbar.Scripts.Editor
                 {
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("healthHeartBar"));
                 }
+
+                if (_health.healthDisplay == Health.DisplayOption.Shader)
+                {
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("shaderHealthBar"));
+                }
             }
 
             if (EditorGUI.EndChangeCheck())

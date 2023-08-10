@@ -77,7 +77,8 @@ public class Health : MonoBehaviour
     {
         Hidden,
         Bar,
-        Hearts
+        Hearts,
+        Shader
     }
 
     public DisplayOption healthDisplay = DisplayOption.Bar;
@@ -91,6 +92,9 @@ public class Health : MonoBehaviour
 
     //for individual hearts version of display
     public HealthHeartBar healthHeartBar;
+
+    //for shader version of healthbar
+    public HealthBar shaderHealthBar;
 
     /// <summary>
     /// Do not use this! use the public property instead so the ui is updated correctly!
@@ -183,6 +187,10 @@ public class Health : MonoBehaviour
             case DisplayOption.Hearts:
                 if (healthHeartBar && Application.isPlaying)
                     healthHeartBar.DisplayHearts((int)_currentHealth);
+                break;
+            case DisplayOption.Shader:
+                if (shaderHealthBar)
+                    shaderHealthBar.HealthNormalized = _currentHealth / _maxHealth;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
