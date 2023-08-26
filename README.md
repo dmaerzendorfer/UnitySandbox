@@ -5,6 +5,10 @@ A little collection of perhaps useful little tools and gadgets for unity.
 
 - A Healthbar Component: an implementation for a health system, includes events for onDamage, onHeal, onHealthChange and onDeath. Supports different types of health representations (HealthBar ->normal unity slider, Hearts -> integer health represented as health(needs to be extended for half hearts etc), Shader -> a procedual healthbar shader (by https://github.com/josebasierra/procedural-healthbar-shader))
 
+- A Movement State Machine
+
+- An input system: using rewired? perhaps also an implementation to use phones as controllers
+
 - A Menu template with options and scene transitions etc: to be done in the future
 
 - A nice 2D jump: to be done in the future
