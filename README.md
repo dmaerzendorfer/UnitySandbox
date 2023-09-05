@@ -5,20 +5,19 @@ A little collection of perhaps useful little tools and gadgets for unity.
 
 - A Healthbar Component: an implementation for a health system, includes events for onDamage, onHeal, onHealthChange and onDeath. Supports different types of health representations (HealthBar ->normal unity slider, Hearts -> integer health represented as health(needs to be extended for half hearts etc), Shader -> a procedual healthbar shader (by https://github.com/josebasierra/procedural-healthbar-shader))
 
-- A playerController with a Movement State Machine
-    & A data driven scriptable object system for stats
+- A playerController with a Movement Hierarchical State Machine: a simple finite state machine is included as well, furthermore some tinkering with scriptable object as stat-containers has been done, the playerController uses unities new input system, demo controller contains a verlet integration fps consistent triple jump
 
-- An input system: using rewired? perhaps also an implementation to use phones as controllers
 
+
+- Phones as controllers: implemented in a way to fit into unities new Input system.
 
 - A game system: base class with access to all players and their data
 
+- A Menu template with options and scene transitions (and animations! maybe a shader?) etc: to be done in the future
 
-- A Menu template with options and scene transitions etc: to be done in the future
+- A Behaviour Tree: for some ai, perhaps add some steering behaviours; tbd in more detail; check: https://www.youtube.com/watch?v=nKpM98I7PeM&t=124s
 
-- A Behaviour Tree: fore some ai, perhaps add some steering behaviours; tbd in more detail
-
-- A nice 2D jump: to be done in the future
+- A nice 2D jump: to be done in the future (partly in the playerController thingy, want to do a specific one however)
 
 - A Dialog system: tbd in detail see https://gamedevbeginner.com/dialogue-systems-in-unity/
 

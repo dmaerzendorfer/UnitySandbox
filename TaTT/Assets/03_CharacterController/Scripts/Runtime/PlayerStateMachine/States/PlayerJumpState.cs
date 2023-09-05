@@ -2,24 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerJumpState : PlayerBaseState
+public class PlayerJumpState : PlayerBaseState, IRootState
 {
     public PlayerJumpState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
         currentContext, playerStateFactory)
     {
         IsRootState = true;
-        InitializeSubState();
     }
 
     public override void EnterState()
     {
+        InitializeSubState();
         HandleJump();
     }
 
     public override void UpdateState()
     {
         HandleGravity();
-        CheckSwitchStates();
     }
 
     public override void ExitState()
@@ -77,7 +76,7 @@ public class PlayerJumpState : PlayerBaseState
         Ctx.AppliedMovementY = Ctx.InitialJumpVelocities[Ctx.JumpCount];
     }
 
-    private void HandleGravity()
+    public void HandleGravity()
     {
         bool isFalling = Ctx.CurrentMovement.y <= 0.0f || !Ctx.IsJumpPressed;
         if (isFalling)
@@ -85,21 +84,21 @@ public class PlayerJumpState : PlayerBaseState
             //previous velocity stuff for framerate consistent jumps -> verlet integration
             float previousYVelocity = Ctx.CurrentMovement.y;
             Ctx.CurrentMovementY = Ctx.CurrentMovement.y +
-                                    (Ctx.JumpGravities[Ctx.JumpCount] * Ctx.FallMultiplier * Time.deltaTime);
-            Ctx.AppliedMovementY = Mathf.Max((previousYVelocity + Ctx.CurrentMovement.y) * .5f, Ctx.MaxFallSpeed);
+                                   (Ctx.JumpGravities[Ctx.JumpCount] * Ctx.Stats.fallMultiplier * Time.deltaTime);
+            Ctx.AppliedMovementY = Mathf.Max((previousYVelocity + Ctx.CurrentMovement.y) * .5f, Ctx.Stats.maxFallSpeed);
         }
         else
         {
             //previous velocity stuff for framerate consistent jumps -> verlet integration
             float previousYVelocity = Ctx.CurrentMovement.y;
             Ctx.CurrentMovementY = Ctx.CurrentMovement.y + (Ctx.JumpGravities[Ctx.JumpCount] * Time.deltaTime);
-            Ctx.AppliedMovementY = Mathf.Max((previousYVelocity + Ctx.CurrentMovement.y) * .5f, Ctx.MaxFallSpeed);
+            Ctx.AppliedMovementY = Mathf.Max((previousYVelocity + Ctx.CurrentMovement.y) * .5f, Ctx.Stats.maxFallSpeed);
         }
     }
 
     private IEnumerator IJumpResetRoutine()
     {
-        yield return new WaitForSeconds(Ctx.ComboJumpTimeFrame);
+        yield return new WaitForSeconds(Ctx.Stats.comboJumpTimeFrame);
         Ctx.JumpCount = 0;
     }
 }
