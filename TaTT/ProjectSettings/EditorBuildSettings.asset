@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/01_Splines/Scenes/TrackDemo.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/04_Menu/Scenes/DemoMenu.unity
+    guid: e22f4dcfbc5e24945a8902039a88f521
+  - enabled: 1
+    path: Assets/04_Menu/Scenes/DemoGame.unity
+    guid: cf1b4f26c31a4764b973d3aea412da6b
   m_configObjects: {}

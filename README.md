@@ -8,12 +8,25 @@ A little collection of perhaps useful little tools and gadgets for unity.
 - A playerController with a Movement Hierarchical State Machine: a simple finite state machine is included as well, furthermore some tinkering with scriptable object as stat-containers has been done, the playerController uses unities new input system, demo controller contains a verlet integration fps consistent triple jump
 //todo: add a scene with four players!
 
+- A Menu template with options and scene transitions (and animations! maybe a shader?) etc: to be done in the future
+https://www.youtube.com/watch?v=zc8ac_qUXQY
+https://www.youtube.com/watch?v=YOaYQrN1oYQ
+https://www.youtube.com/watch?v=JivuXdrIHK0
+levelLoader with transitions
+https://www.youtube.com/watch?v=CE9VOZivb3I
+-> for loading animation -> use doTween!
+save the options as playerPrefs -> for game settings
+https://www.youtube.com/watch?v=UNpuhewlAfQ
+or as jsonutility -> for save game states
+https://www.youtube.com/watch?v=aSNj2nvSyD4
+
+https://blog.unity.com/games/persistent-data-how-to-save-your-game-states-and-settings
+
+//todo: look into scene management and add it here -> eG having persistent scene with level transition etc.
 
 - Phones as controllers: implemented in a way to fit into unities new Input system.
 
 - A game system: base class with access to all players and their data
-
-- A Menu template with options and scene transitions (and animations! maybe a shader?) etc: to be done in the future
 
 - A Behaviour Tree: for some ai, perhaps add some steering behaviours; tbd in more detail; check: https://www.youtube.com/watch?v=nKpM98I7PeM&t=124s
 
