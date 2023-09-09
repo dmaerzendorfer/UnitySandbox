@@ -1,29 +1,29 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class LevelLoader : MonoBehaviour
 {
     public Animator transition;
+    private static LevelLoader _instance = null;
+
+    public static LevelLoader Instance
+    {
+        get { return _instance; }
+    }
+
     private int _startHash;
 
     private void Awake()
     {
         _startHash = Animator.StringToHash("Start");
+        _instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void LoadLevelIndex(int index)
     {
-        //demo code for testing purposes, can be removed
-        if (Input.GetMouseButtonDown(0))
-        {
-            LoadNextLevel();
-        }
+        StartCoroutine(LoadLevel(index));
     }
 
     public void LoadNextLevel()
@@ -37,8 +37,16 @@ public class LevelLoader : MonoBehaviour
             levelIndex = 0;
 
         transition.SetTrigger(_startHash);
-        yield return new WaitForSeconds(transition.GetCurrentAnimatorStateInfo(0).length);
+        //use realtime wait to wait even if timescale is 0
+        yield return new WaitForSecondsRealtime(transition.GetCurrentAnimatorStateInfo(0).length);
         DOTween.KillAll();
+        Time.timeScale = 1f;
         SceneManager.LoadScene(levelIndex);
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("Quit");
+        Application.Quit();
     }
 }
