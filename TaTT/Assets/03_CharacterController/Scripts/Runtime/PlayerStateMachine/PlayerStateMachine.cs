@@ -17,7 +17,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     private bool _isJumping = false;
     private CharacterController _characterController;
-    private PlayerInput _playerInput;
+    private PlayerControls _playerInput;
     private Vector3 _cameraRelativeMovement;
 
     private int _isWalkingHash;
@@ -53,7 +53,7 @@ public class PlayerStateMachine : MonoBehaviour
         _statsInstance = Instantiate(stats);
 
         //initially set reference variables
-        _playerInput = new PlayerInput();
+        _playerInput = new PlayerControls();
         _characterController = GetComponent<CharacterController>();
 
         //setup state
@@ -273,7 +273,7 @@ public class PlayerStateMachine : MonoBehaviour
         set => _characterController = value;
     }
 
-    public PlayerInput PlayerInput
+    public PlayerControls PlayerInput
     {
         get => _playerInput;
         set => _playerInput = value;

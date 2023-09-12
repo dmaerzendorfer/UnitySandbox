@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "PlayerStats", menuName="PlayerStats")]
-public class PlayerStats : ScriptableObject
+[CreateAssetMenu(fileName = "PlayerStats", menuName = "PlayerStats")]
+public class PlayerStats : BaseStats
 {
     public float rotationFactorPerFrame = 15f;
     public float runMultiplier = 3f;
@@ -15,5 +15,4 @@ public class PlayerStats : ScriptableObject
 
     public float maxFallSpeed = -20f;
     //todo: make these jump time and height params a animation curve in the editor -> also the fall multiplier!
-
 }

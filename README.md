@@ -10,7 +10,12 @@ A little collection of perhaps useful little tools and gadgets for unity.
 //todo: add lobby screen where controllers/players can join connect
 //todo: add a playerManager that other scripts cann access to get the players stats
 //todo: make stats more generic -> an interface or abstract base class -> has getter/setter with string for member names or even better
+https://www.youtube.com/watch?v=WLDgtRNK2VE
+this seems fun :D
 
+//for lobby stuff
+https://www.youtube.com/watch?v=_5pOiYHJgl0
+fuck it, stop for now. tomorrow do the whole tutorial one by one and then change it afterwards
 
 - A Menu template with options and scene transitions; transitions are handled by the LevelLoader, There is a prefab for the main menu and a pause menu. The settings of the menu are saved in the playerPrefs and are accessible from anywhere
 //todo: look into scene management and add it here -> eG having persistent scene with level transition etc.
