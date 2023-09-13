@@ -111,13 +111,13 @@ public class PlayerCardController : MonoBehaviour
                 CurrentColorIndex--;
             }
         }
-        else if (obj.action.name == _controls.CharacterControls.Interact.name &&
+        else if (obj.action.name == _controls.CharacterControls.Interact2.name &&
                  obj.action.phase == InputActionPhase.Started)
         {
             //on interaction button press cycle color one further
             CurrentColorIndex++;
         }
-        else if (obj.action.name == _controls.CharacterControls.Jump.name &&
+        else if (obj.action.name == _controls.CharacterControls.Interact1.name &&
                  obj.action.phase == InputActionPhase.Started)
         {
             //jump button -> use this for ready

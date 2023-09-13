@@ -5,13 +5,21 @@ using UnityEngine.InputSystem;
 //based on: https://www.youtube.com/watch?v=GobPch3uCA4&list=PLwyUzJb_FNeQrIxCEjj5AMPwawsw5beAy&index=5
 public class PlayerStateMachine : MonoBehaviour
 {
-    [SerializeField] private PlayerStats stats;
-    [HideInInspector] private PlayerStats _statsInstance;
+    // [SerializeField] private PlayerStats stats;
+
+    /// <summary>
+    /// This index needs to match with the joining player from the PlayerConfigurationManager in order to get the playerInput and Stats
+    /// </summary>
+    public int playerIndex = 0;
 
     public Animator animator;
 
-    //
+
     public bool moveRelativeToCamera = true;
+
+    [HideInInspector] private PlayerStats _statsInstance;
+    public bool PlayerConnected { get; set; } = false;
+    private PlayerControls _controls;
 
     #region movementMembers
 
@@ -28,10 +36,10 @@ public class PlayerStateMachine : MonoBehaviour
 
     private bool _requireNewJumpPress = false;
 
-    private Vector2 _currentMovementInput;
-    private Vector3 _currentMovement;
-    private Vector3 _currentRunMovement;
-    private Vector3 _appliedMovement;
+    private Vector2 _currentMovementInput = Vector2.zero;
+    private Vector3 _currentMovement = Vector3.zero;
+    private Vector3 _currentRunMovement = Vector3.zero;
+    private Vector3 _appliedMovement = Vector3.zero;
 
     private bool _isMovementPressed;
     private bool _isRunPressed;
@@ -47,13 +55,13 @@ public class PlayerStateMachine : MonoBehaviour
     private PlayerBaseState _currentState;
     private PlayerStateFactory _states;
 
-    protected void Awake()
+    protected virtual void Awake()
     {
-        //instantiate stats
-        _statsInstance = Instantiate(stats);
+        _controls = new PlayerControls();
 
-        //initially set reference variables
-        _playerInput = new PlayerControls();
+        //setup stuff on player join
+        PlayerConfigurationManager.Instance.onPlayerJoin.AddListener(OnPlayerJoin);
+
         _characterController = GetComponent<CharacterController>();
 
         //setup state
@@ -67,50 +75,36 @@ public class PlayerStateMachine : MonoBehaviour
         _isJumpingHash = Animator.StringToHash("isJumping");
         _jumpCountHash = Animator.StringToHash("jumpCount");
         _isFallingHash = Animator.StringToHash("isFalling");
-
-        //setup input
-        _playerInput.CharacterControls.Move.started += OnMovementInput;
-        _playerInput.CharacterControls.Move.canceled += OnMovementInput;
-        _playerInput.CharacterControls.Move.performed += OnMovementInput;
-        _playerInput.CharacterControls.Run.started += OnRun;
-        _playerInput.CharacterControls.Run.canceled += OnRun;
-        _playerInput.CharacterControls.Jump.started += OnJump;
-        _playerInput.CharacterControls.Jump.canceled += OnJump;
-
-        SetupJumpVariables();
     }
 
-    private void SetupJumpVariables()
+    private void OnPlayerJoin(int index)
     {
-        //the jump is a parabola -> this math results from that.
-        //see https://www.youtube.com/watch?v=hG9SzQxaCm8 for detail
-        float timeToApex = _statsInstance.maxJumpTime / 2;
-        float initialGravity = (-2 * _statsInstance.maxJumpHeight) / Mathf.Pow(timeToApex, 2);
-        float initialJumpVelocity = (2 * _statsInstance.maxJumpHeight) / timeToApex;
-        float secondJumpGravity = (-2 * (_statsInstance.maxJumpHeight + 1)) / Mathf.Pow(timeToApex * 1.175f, 2);
-        float secondJumpVelocity = (2 * _statsInstance.maxJumpHeight + 1) / (timeToApex * 1.175f);
-        float thirdJumpGravity = (-2 * (_statsInstance.maxJumpHeight + 2)) / Mathf.Pow(timeToApex * 1.25f, 2);
-        float thirdJumpVelocity = (2 * _statsInstance.maxJumpHeight + 2) / (timeToApex * 1.25f);
+        //if the newly joined player is not us, return
+        if (index != playerIndex) return;
 
-        _initialJumpVelocities.Add(1, initialJumpVelocity);
-        _initialJumpVelocities.Add(2, secondJumpVelocity);
-        _initialJumpVelocities.Add(3, thirdJumpVelocity);
+        PlayerConnected = true;
+        //load our stats
+        var playerConfig = PlayerConfigurationManager.Instance.GetPlayerConfig(playerIndex);
+        _statsInstance = playerConfig.Stats;
+        SetupJumpVariables();
 
-        _jumpGravities.Add(0, initialGravity);
-        _jumpGravities.Add(1, initialGravity);
-        _jumpGravities.Add(2, secondJumpGravity);
-        _jumpGravities.Add(3, thirdJumpGravity);
+        //could use the players color now too eG to set the models material or smth...
+
+        //setup our input events
+        playerConfig.Input.onActionTriggered += OnActionTriggered;
     }
 
-    protected void Start()
+    protected virtual void Start()
     {
         //for gravity reasons
         _characterController.Move(_appliedMovement * Time.deltaTime);
     }
 
     // Update is called once per frame
-    protected void Update()
+    protected virtual void Update()
     {
+        //if no player has connected yet, we dont have any input
+        if (!PlayerConnected) return;
         HandleRotation();
         if (moveRelativeToCamera)
         {
@@ -128,14 +122,9 @@ public class PlayerStateMachine : MonoBehaviour
         _currentState.UpdateStates();
     }
 
-    protected void OnEnable()
+    protected virtual void OnDestroy()
     {
-        _playerInput.CharacterControls.Enable();
-    }
-
-    protected void OnDisable()
-    {
-        _playerInput.CharacterControls.Disable();
+        PlayerConfigurationManager.Instance.onPlayerJoin.RemoveListener(OnPlayerJoin);
     }
 
     private void HandleRotation()
@@ -164,6 +153,50 @@ public class PlayerStateMachine : MonoBehaviour
         }
     }
 
+    private void SetupJumpVariables()
+    {
+        //the jump is a parabola -> this math results from that.
+        //see https://www.youtube.com/watch?v=hG9SzQxaCm8 for detail
+        float timeToApex = _statsInstance.maxJumpTime / 2;
+        float initialGravity = (-2 * _statsInstance.maxJumpHeight) / Mathf.Pow(timeToApex, 2);
+        float initialJumpVelocity = (2 * _statsInstance.maxJumpHeight) / timeToApex;
+        float secondJumpGravity = (-2 * (_statsInstance.maxJumpHeight + 1)) / Mathf.Pow(timeToApex * 1.175f, 2);
+        float secondJumpVelocity = (2 * _statsInstance.maxJumpHeight + 1) / (timeToApex * 1.175f);
+        float thirdJumpGravity = (-2 * (_statsInstance.maxJumpHeight + 2)) / Mathf.Pow(timeToApex * 1.25f, 2);
+        float thirdJumpVelocity = (2 * _statsInstance.maxJumpHeight + 2) / (timeToApex * 1.25f);
+
+        _initialJumpVelocities.Add(1, initialJumpVelocity);
+        _initialJumpVelocities.Add(2, secondJumpVelocity);
+        _initialJumpVelocities.Add(3, thirdJumpVelocity);
+
+        _jumpGravities.Add(0, initialGravity);
+        _jumpGravities.Add(1, initialGravity);
+        _jumpGravities.Add(2, secondJumpGravity);
+        _jumpGravities.Add(3, thirdJumpGravity);
+    }
+
+    protected virtual void OnActionTriggered(InputAction.CallbackContext obj)
+    {
+        //the playerConfigs playerInput uses c# events:
+        //therefore the action hookup is a bit longer, but also more dynamic (it can be controlled easier in code)
+
+        if (obj.action.name == _controls.CharacterControls.Move.name &&
+            (obj.action.phase == InputActionPhase.Started || obj.action.phase == InputActionPhase.Canceled ||
+             obj.action.phase == InputActionPhase.Performed))
+        {
+            OnMovementInput(obj);
+        }
+        else if (obj.action.name == _controls.CharacterControls.Run.name &&
+                 (obj.action.phase == InputActionPhase.Started || obj.action.phase == InputActionPhase.Canceled))
+        {
+            OnRun(obj);
+        }
+        else if (obj.action.name == _controls.CharacterControls.Interact1.name &&
+                 (obj.action.phase == InputActionPhase.Started || obj.action.phase == InputActionPhase.Canceled))
+        {
+            OnJump(obj);
+        }
+    }
 
     #region InputCallbacks
 

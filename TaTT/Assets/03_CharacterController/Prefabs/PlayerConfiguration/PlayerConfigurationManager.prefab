@@ -45,8 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 075c91b17fea39646a63306ddc7883b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStats: {fileID: 11400000, guid: c70320ba64e998441b1ae033b5edc49d, type: 2}
   maxPlayers: 4
-  sceneName: TestStage
+  sceneName: DemoLevel1
   onPlayerJoin:
     m_PersistentCalls:
       m_Calls: []

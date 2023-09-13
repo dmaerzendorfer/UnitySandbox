@@ -1,12 +1,9 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class DemoPlayerController : MonoBehaviour
 {
     public float speed = 5f;
-    public Guid playerId;
-
 
     private Vector2 movementInput;
 

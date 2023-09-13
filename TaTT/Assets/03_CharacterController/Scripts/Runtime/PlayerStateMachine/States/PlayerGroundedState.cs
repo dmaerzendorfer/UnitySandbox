@@ -53,6 +53,7 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
 
     public void HandleGravity()
     {
+        if (!Ctx.PlayerConnected) return;
         Ctx.CurrentMovementY = Ctx.Stats.gravity;
         Ctx.AppliedMovementY = Ctx.Stats.gravity;
     }

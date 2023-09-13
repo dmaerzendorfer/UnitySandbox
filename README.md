@@ -19,6 +19,7 @@ fuck it, stop for now. tomorrow do the whole tutorial one by one and then change
 start: 10:20 break 11.20
 todo: fix ui movement then try my own shit :)
 continue 12:24 break 13:10
+continue 14:30 break 16:00 almost working now :) time for onigiri now
 
 todo: cleanup, delete old tutorial stuff, check if scene change works, then update player controller to use the new playerconfigs
 then -> make something for testing so we dont always have to do lobby stuff first

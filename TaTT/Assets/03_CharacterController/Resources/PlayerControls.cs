@@ -46,7 +46,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Jump"",
+                    ""name"": ""Interact1"",
                     ""type"": ""Button"",
                     ""id"": ""4aff1153-b8ca-419f-ba66-63303fecdb92"",
                     ""expectedControlType"": ""Button"",
@@ -64,7 +64,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Interact"",
+                    ""name"": ""Interact2"",
                     ""type"": ""Button"",
                     ""id"": ""776ee122-da12-4486-8008-11f7a3337e08"",
                     ""expectedControlType"": ""Button"",
@@ -169,7 +169,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""MouseKeyboard"",
-                    ""action"": ""Jump"",
+                    ""action"": ""Interact1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -180,7 +180,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Jump"",
+                    ""action"": ""Interact1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -213,7 +213,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""MouseKeyboard"",
-                    ""action"": ""Interact"",
+                    ""action"": ""Interact2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -224,7 +224,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Interact"",
+                    ""action"": ""Interact2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -265,9 +265,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_CharacterControls = asset.FindActionMap("CharacterControls", throwIfNotFound: true);
         m_CharacterControls_Move = m_CharacterControls.FindAction("Move", throwIfNotFound: true);
         m_CharacterControls_Run = m_CharacterControls.FindAction("Run", throwIfNotFound: true);
-        m_CharacterControls_Jump = m_CharacterControls.FindAction("Jump", throwIfNotFound: true);
+        m_CharacterControls_Interact1 = m_CharacterControls.FindAction("Interact1", throwIfNotFound: true);
         m_CharacterControls_Look = m_CharacterControls.FindAction("Look", throwIfNotFound: true);
-        m_CharacterControls_Interact = m_CharacterControls.FindAction("Interact", throwIfNotFound: true);
+        m_CharacterControls_Interact2 = m_CharacterControls.FindAction("Interact2", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -331,18 +331,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<ICharacterControlsActions> m_CharacterControlsActionsCallbackInterfaces = new List<ICharacterControlsActions>();
     private readonly InputAction m_CharacterControls_Move;
     private readonly InputAction m_CharacterControls_Run;
-    private readonly InputAction m_CharacterControls_Jump;
+    private readonly InputAction m_CharacterControls_Interact1;
     private readonly InputAction m_CharacterControls_Look;
-    private readonly InputAction m_CharacterControls_Interact;
+    private readonly InputAction m_CharacterControls_Interact2;
     public struct CharacterControlsActions
     {
         private @PlayerControls m_Wrapper;
         public CharacterControlsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_CharacterControls_Move;
         public InputAction @Run => m_Wrapper.m_CharacterControls_Run;
-        public InputAction @Jump => m_Wrapper.m_CharacterControls_Jump;
+        public InputAction @Interact1 => m_Wrapper.m_CharacterControls_Interact1;
         public InputAction @Look => m_Wrapper.m_CharacterControls_Look;
-        public InputAction @Interact => m_Wrapper.m_CharacterControls_Interact;
+        public InputAction @Interact2 => m_Wrapper.m_CharacterControls_Interact2;
         public InputActionMap Get() { return m_Wrapper.m_CharacterControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -358,15 +358,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Run.started += instance.OnRun;
             @Run.performed += instance.OnRun;
             @Run.canceled += instance.OnRun;
-            @Jump.started += instance.OnJump;
-            @Jump.performed += instance.OnJump;
-            @Jump.canceled += instance.OnJump;
+            @Interact1.started += instance.OnInteract1;
+            @Interact1.performed += instance.OnInteract1;
+            @Interact1.canceled += instance.OnInteract1;
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
-            @Interact.started += instance.OnInteract;
-            @Interact.performed += instance.OnInteract;
-            @Interact.canceled += instance.OnInteract;
+            @Interact2.started += instance.OnInteract2;
+            @Interact2.performed += instance.OnInteract2;
+            @Interact2.canceled += instance.OnInteract2;
         }
 
         private void UnregisterCallbacks(ICharacterControlsActions instance)
@@ -377,15 +377,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Run.started -= instance.OnRun;
             @Run.performed -= instance.OnRun;
             @Run.canceled -= instance.OnRun;
-            @Jump.started -= instance.OnJump;
-            @Jump.performed -= instance.OnJump;
-            @Jump.canceled -= instance.OnJump;
+            @Interact1.started -= instance.OnInteract1;
+            @Interact1.performed -= instance.OnInteract1;
+            @Interact1.canceled -= instance.OnInteract1;
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
-            @Interact.started -= instance.OnInteract;
-            @Interact.performed -= instance.OnInteract;
-            @Interact.canceled -= instance.OnInteract;
+            @Interact2.started -= instance.OnInteract2;
+            @Interact2.performed -= instance.OnInteract2;
+            @Interact2.canceled -= instance.OnInteract2;
         }
 
         public void RemoveCallbacks(ICharacterControlsActions instance)
@@ -425,8 +425,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
-        void OnJump(InputAction.CallbackContext context);
+        void OnInteract1(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
-        void OnInteract(InputAction.CallbackContext context);
+        void OnInteract2(InputAction.CallbackContext context);
     }
 }

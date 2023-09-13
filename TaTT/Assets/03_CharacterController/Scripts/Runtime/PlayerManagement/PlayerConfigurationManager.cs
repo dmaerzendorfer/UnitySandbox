@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class PlayerConfigurationManager : MonoBehaviour
 {
     [SerializeField] private List<PlayerConfiguration> _playerConfigs;
+    public PlayerStats playerStats;
 
     public List<PlayerConfiguration> PlayerConfigs
     {
@@ -19,14 +20,10 @@ public class PlayerConfigurationManager : MonoBehaviour
     public string sceneName = "SampleScene";
     public static PlayerConfigurationManager Instance { get; private set; }
 
-    private PlayerCardsManager _lobbyPlayerCardsPanel;
-
     public UnityEvent<int> onPlayerJoin;
 
     private void Awake()
     {
-        // _lobbyPlayerCardsPanel = GameObject.Find("PlayerCards").GetComponent<PlayerCardsManager>();
-
         if (Instance != null)
         {
             Debug.Log("trying to create another instance of playerconfigurationManager!");
@@ -59,28 +56,16 @@ public class PlayerConfigurationManager : MonoBehaviour
         }
     }
 
-    public void HandlePlayerJoin(UnityEngine.InputSystem.PlayerInput playerInput)
+    public void HandlePlayerJoin(PlayerInput playerInput)
     {
         if (!_playerConfigs.Any(p => p.PlayerIndex == playerInput.playerIndex))
         {
+            //init new player configs, set their stats etc.
             playerInput.transform.SetParent(transform);
-            _playerConfigs.Add(new PlayerConfiguration(playerInput));
+            var playerConfig = new PlayerConfiguration(playerInput);
+            playerConfig.Stats = Instantiate(playerStats);
+            _playerConfigs.Add(playerConfig);
             onPlayerJoin.Invoke(playerInput.playerIndex);
         }
     }
-}
-
-//todo make this a scriptable object to set default material
-public class PlayerConfiguration
-{
-    public PlayerConfiguration(PlayerInput playerInput)
-    {
-        Input = playerInput;
-        PlayerIndex = playerInput.playerIndex;
-    }
-
-    public PlayerInput Input { get; set; }
-    public int PlayerIndex { get; set; }
-    public bool IsReady { get; set; }
-    public Material PlayerMaterial { get; set; }
 }
