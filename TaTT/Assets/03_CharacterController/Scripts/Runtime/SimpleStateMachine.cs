@@ -7,7 +7,7 @@ using UnityEngine;
 /// Can also be used for concurrent FSMs, just give an object multiple stateControllers
 /// Usage: create a scriptable object that extends the BaseStateSO and implement its methods. Create an instance of the SO, and set it as a member for this script.
 /// </summary>
-public class StateController : MonoBehaviour
+public class SimpleStateMachine : MonoBehaviour
 {
     private BaseStateSO _currentState;
 

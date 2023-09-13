@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(PlayerInputManager))]
 public class PlayerConfigurationManager : MonoBehaviour
 {
-    private List<PlayerConfiguration> _playerConfigs;
+    [SerializeField] private List<PlayerConfiguration> _playerConfigs;
 
     public List<PlayerConfiguration> PlayerConfigs
     {
@@ -61,7 +61,6 @@ public class PlayerConfigurationManager : MonoBehaviour
 
     public void HandlePlayerJoin(UnityEngine.InputSystem.PlayerInput playerInput)
     {
-        Debug.Log("Player joined " + playerInput.playerIndex);
         if (!_playerConfigs.Any(p => p.PlayerIndex == playerInput.playerIndex))
         {
             playerInput.transform.SetParent(transform);
@@ -74,13 +73,13 @@ public class PlayerConfigurationManager : MonoBehaviour
 //todo make this a scriptable object to set default material
 public class PlayerConfiguration
 {
-    public PlayerConfiguration(UnityEngine.InputSystem.PlayerInput playerInput)
+    public PlayerConfiguration(PlayerInput playerInput)
     {
         Input = playerInput;
         PlayerIndex = playerInput.playerIndex;
     }
 
-    public UnityEngine.InputSystem.PlayerInput Input { get; set; }
+    public PlayerInput Input { get; set; }
     public int PlayerIndex { get; set; }
     public bool IsReady { get; set; }
     public Material PlayerMaterial { get; set; }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -40,7 +39,6 @@ public class PlayerCardController : MonoBehaviour
         get { return _playerIndex; }
         set
         {
-            Debug.Log("Set playerIndex");
             _playerIndex = value;
             IsWaiting = false;
 

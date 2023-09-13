@@ -667,30 +667,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerConfigurationManager
       objectReference: {fileID: 0}
-    - target: {fileID: 379139265456295262, guid: 734d182d9d0fda943a90ddfbff5334ee,
-        type: 3}
-      propertyPath: sceneName
-      value: TestStage
-      objectReference: {fileID: 0}
-    - target: {fileID: 379139265456295262, guid: 734d182d9d0fda943a90ddfbff5334ee,
-        type: 3}
-      propertyPath: maxPlayers
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 379139265456295263, guid: 734d182d9d0fda943a90ddfbff5334ee,
-        type: 3}
-      propertyPath: m_JoinBehavior
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 379139265456295263, guid: 734d182d9d0fda943a90ddfbff5334ee,
-        type: 3}
-      propertyPath: m_JoinAction.m_Action.m_Id
-      value: c609d629-8dbe-4030-a17a-3e2c38692cde
-      objectReference: {fileID: 0}
-    - target: {fileID: 379139265456295263, guid: 734d182d9d0fda943a90ddfbff5334ee,
-        type: 3}
-      propertyPath: m_JoinAction.m_Action.m_Name
-      value: Join
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 734d182d9d0fda943a90ddfbff5334ee, type: 3}

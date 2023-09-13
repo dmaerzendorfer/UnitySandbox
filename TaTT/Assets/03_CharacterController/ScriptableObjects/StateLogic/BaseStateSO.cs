@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class BaseStateSO : ScriptableObject
 {
-    protected StateController sc;
+    protected SimpleStateMachine sc;
 
-    public void OnStateEnter(StateController stateController)
+    public void OnStateEnter(SimpleStateMachine fsm)
     {
-        sc = stateController;
+        sc = fsm;
         OnEnter();
     }
 
@@ -23,7 +23,7 @@ public class BaseStateSO : ScriptableObject
     protected virtual void OnUpdate()
     {
     }
-    
+
     public void OnStateFixedUpdate()
     {
         //code in here will always be run, no matter what the specific state instance does in its update

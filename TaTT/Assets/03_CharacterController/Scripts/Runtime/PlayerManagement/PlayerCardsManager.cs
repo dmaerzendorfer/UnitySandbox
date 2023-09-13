@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerCardsManager : MonoBehaviour
 {
     public List<PlayerCardController> playerCards;
-    
+
     private void Start()
     {
         PlayerConfigurationManager.Instance.onPlayerJoin.AddListener(PlayerJoin);
@@ -17,7 +17,6 @@ public class PlayerCardsManager : MonoBehaviour
 
     private void PlayerJoin(int index)
     {
-        Debug.Log("Player joined " + index);
         playerCards[index].PlayerIndex = index;
     }
 }

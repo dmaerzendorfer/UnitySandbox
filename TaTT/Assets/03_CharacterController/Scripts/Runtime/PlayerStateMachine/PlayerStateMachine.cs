@@ -47,7 +47,7 @@ public class PlayerStateMachine : MonoBehaviour
     private PlayerBaseState _currentState;
     private PlayerStateFactory _states;
 
-    private void Awake()
+    protected void Awake()
     {
         //instantiate stats
         _statsInstance = Instantiate(stats);
@@ -102,14 +102,14 @@ public class PlayerStateMachine : MonoBehaviour
         _jumpGravities.Add(3, thirdJumpGravity);
     }
 
-    private void Start()
+    protected void Start()
     {
         //for gravity reasons
         _characterController.Move(_appliedMovement * Time.deltaTime);
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         HandleRotation();
         if (moveRelativeToCamera)
@@ -128,12 +128,12 @@ public class PlayerStateMachine : MonoBehaviour
         _currentState.UpdateStates();
     }
 
-    private void OnEnable()
+    protected void OnEnable()
     {
         _playerInput.CharacterControls.Enable();
     }
 
-    private void OnDisable()
+    protected void OnDisable()
     {
         _playerInput.CharacterControls.Disable();
     }
