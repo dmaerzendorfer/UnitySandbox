@@ -46,7 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxPlayers: 4
-  sceneName: SamlpleScene
+  sceneName: TestStage
+  onPlayerJoin:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &379139265456295263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,10 +87,10 @@ MonoBehaviour:
   m_JoinAction:
     m_UseReference: 0
     m_Action:
-      m_Name: 
+      m_Name: Join
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 
+      m_Id: c609d629-8dbe-4030-a17a-3e2c38692cde
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []

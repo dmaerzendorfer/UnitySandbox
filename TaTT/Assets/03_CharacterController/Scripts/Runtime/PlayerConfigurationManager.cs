@@ -16,7 +16,7 @@ public class PlayerConfigurationManager : MonoBehaviour
     }
 
     [SerializeField] private int maxPlayers = 4;
-    public string sceneName = "SamlpleScene";
+    public string sceneName = "SampleScene";
     public static PlayerConfigurationManager Instance { get; private set; }
 
     private PlayerCardsManager _lobbyPlayerCardsPanel;
@@ -25,7 +25,7 @@ public class PlayerConfigurationManager : MonoBehaviour
 
     private void Awake()
     {
-        _lobbyPlayerCardsPanel = GameObject.Find("PlayerCards").GetComponent<PlayerCardsManager>();
+        // _lobbyPlayerCardsPanel = GameObject.Find("PlayerCards").GetComponent<PlayerCardsManager>();
 
         if (Instance != null)
         {

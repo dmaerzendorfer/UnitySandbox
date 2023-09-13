@@ -7,15 +7,19 @@ using UnityEngine.UI;
 
 public class PlayerCardController : MonoBehaviour
 {
+    public List<Material> availablePlayerColors;
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI readyText;
     [SerializeField] private Image colorImage;
     [SerializeField] private GameObject waitingUi;
     [SerializeField] private GameObject joinedUi;
-    public List<Material> availablePlayerColors;
+
     private int _currentColorIndex = 0;
 
     private PlayerControls _controls;
+
+    //to make sure players that join with a "A" button press dont ready up immediately
+    private float _ignoreInputTime = 0.5f;
 
     public int CurrentColorIndex
     {
@@ -25,7 +29,7 @@ public class PlayerCardController : MonoBehaviour
             var n = availablePlayerColors.Count;
             //make sure the index wraps around the colors list in both directions
             _currentColorIndex = ((value % n) + n) % n;
-            colorImage.material = availablePlayerColors[_currentColorIndex];
+            colorImage.color = availablePlayerColors[_currentColorIndex].color;
         }
     }
 
@@ -41,6 +45,8 @@ public class PlayerCardController : MonoBehaviour
             IsWaiting = false;
 
             titleText.text = "Player " + (_playerIndex + 1);
+
+            _ignoreInputTime = Time.time + _ignoreInputTime;
 
             //subscribe to new playercontrols etc
             var playerConfigManager =
@@ -75,7 +81,7 @@ public class PlayerCardController : MonoBehaviour
     private void Start()
     {
         _controls = new PlayerControls();
-        colorImage.material = availablePlayerColors[_currentColorIndex];
+        colorImage.color = availablePlayerColors[_currentColorIndex].color;
     }
 
     private void OnDestroy()
@@ -87,6 +93,12 @@ public class PlayerCardController : MonoBehaviour
 
     private void OnActionTriggered(InputAction.CallbackContext obj)
     {
+        if (Time.time < _ignoreInputTime)
+        {
+            //dont allow interaction yet
+            return;
+        }
+
         if (obj.action.name == _controls.CharacterControls.Move.name && obj.action.phase == InputActionPhase.Started)
         {
             //move action -> use this for changing color
@@ -101,12 +113,18 @@ public class PlayerCardController : MonoBehaviour
                 CurrentColorIndex--;
             }
         }
+        else if (obj.action.name == _controls.CharacterControls.Interact.name &&
+                 obj.action.phase == InputActionPhase.Started)
+        {
+            //on interaction button press cycle color one further
+            CurrentColorIndex++;
+        }
         else if (obj.action.name == _controls.CharacterControls.Jump.name &&
                  obj.action.phase == InputActionPhase.Started)
         {
             //jump button -> use this for ready
             //if pressed ready up
-            PlayerConfigurationManager.Instance.PlayerConfigs[_playerIndex].IsReady ^= true;
+            PlayerConfigurationManager.Instance.ReadyPlayer(_playerIndex);
             if (PlayerConfigurationManager.Instance.PlayerConfigs[_playerIndex].IsReady)
             {
                 readyText.text = "Ready";

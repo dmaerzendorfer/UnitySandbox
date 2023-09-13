@@ -16,6 +16,13 @@ this seems fun :D
 //for lobby stuff
 https://www.youtube.com/watch?v=_5pOiYHJgl0
 fuck it, stop for now. tomorrow do the whole tutorial one by one and then change it afterwards
+start: 10:20 break 11.20
+todo: fix ui movement then try my own shit :)
+continue 12:24
+
+todo: cleanup, delete old tutorial stuff, check if scene change works, then update player controller to use the new playerconfigs
+then -> make something for testing so we dont always have to do lobby stuff first
+
 
 - A Menu template with options and scene transitions; transitions are handled by the LevelLoader, There is a prefab for the main menu and a pause menu. The settings of the menu are saved in the playerPrefs and are accessible from anywhere
 //todo: look into scene management and add it here -> eG having persistent scene with level transition etc.
