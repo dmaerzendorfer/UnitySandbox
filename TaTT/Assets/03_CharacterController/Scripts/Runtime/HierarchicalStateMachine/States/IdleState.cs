@@ -1,6 +1,6 @@
-public class PlayerIdleState : PlayerBaseState
+public class IdleState : BaseState
 {
-    public PlayerIdleState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
+    public IdleState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
         currentContext, playerStateFactory)
     {
     }

@@ -5,15 +5,12 @@ using UnityEngine.InputSystem;
 //based on: https://www.youtube.com/watch?v=GobPch3uCA4&list=PLwyUzJb_FNeQrIxCEjj5AMPwawsw5beAy&index=5
 public class PlayerStateMachine : MonoBehaviour
 {
-    // [SerializeField] private PlayerStats stats;
-
     /// <summary>
     /// This index needs to match with the joining player from the PlayerConfigurationManager in order to get the playerInput and Stats
     /// </summary>
     public int playerIndex = 0;
 
     public Animator animator;
-
 
     public bool moveRelativeToCamera = true;
 
@@ -52,16 +49,13 @@ public class PlayerStateMachine : MonoBehaviour
     #endregion
 
     //stateMachine
-    private PlayerBaseState _currentState;
+    private BaseState _currentState;
     private PlayerStateFactory _states;
 
     protected virtual void Awake()
     {
         _controls = new PlayerControls();
-
-        //setup stuff on player join
-        PlayerConfigurationManager.Instance.onPlayerJoin.AddListener(OnPlayerJoin);
-
+        
         _characterController = GetComponent<CharacterController>();
 
         //setup state
@@ -96,6 +90,9 @@ public class PlayerStateMachine : MonoBehaviour
 
     protected virtual void Start()
     {
+        //setup stuff on player join
+        PlayerConfigurationManager.Instance.onPlayerJoin.AddListener(OnPlayerJoin);
+
         //for gravity reasons
         _characterController.Move(_appliedMovement * Time.deltaTime);
     }
@@ -257,7 +254,7 @@ public class PlayerStateMachine : MonoBehaviour
         set { _statsInstance = value; }
     }
 
-    public PlayerBaseState CurrentState
+    public BaseState CurrentState
     {
         get { return _currentState; }
         set { _currentState = value; }

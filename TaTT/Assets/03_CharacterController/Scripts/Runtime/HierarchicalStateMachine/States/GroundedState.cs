@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class PlayerGroundedState : PlayerBaseState, IRootState
+public class GroundedState : BaseState, IRootState
 {
-    public PlayerGroundedState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
+    public GroundedState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
         currentContext, playerStateFactory)
     {
         IsRootState = true;

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class PlayerFallState : PlayerBaseState, IRootState
+public class FallState : BaseState, IRootState
 {
-    public PlayerFallState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
+    public FallState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
         currentContext, playerStateFactory)
     {
         IsRootState = true;

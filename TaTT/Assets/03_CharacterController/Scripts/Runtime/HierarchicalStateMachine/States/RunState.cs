@@ -1,6 +1,6 @@
-public class PlayerWalkState : PlayerBaseState
+public class RunState : BaseState
 {
-    public PlayerWalkState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
+    public RunState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
         currentContext, playerStateFactory)
     {
     }
@@ -8,13 +8,14 @@ public class PlayerWalkState : PlayerBaseState
     public override void EnterState()
     {
         Ctx.Animator.SetBool(Ctx.IsWalkingHash, true);
-        Ctx.Animator.SetBool(Ctx.IsRunningHash, false);
+        Ctx.Animator.SetBool(Ctx.IsRunningHash, true);
     }
 
     public override void UpdateState()
     {
-        Ctx.AppliedMovementX = Ctx.CurrentMovementInput.x;
-        Ctx.AppliedMovementZ = Ctx.CurrentMovementInput.y;
+        
+        Ctx.AppliedMovementX = Ctx.CurrentMovementInput.x * Ctx.Stats.runMultiplier;
+        Ctx.AppliedMovementZ = Ctx.CurrentMovementInput.y * Ctx.Stats.runMultiplier;
     }
 
     public override void ExitState()
@@ -27,9 +28,9 @@ public class PlayerWalkState : PlayerBaseState
         {
             SwitchState(Factory.Idle());
         }
-        else if (Ctx.IsMovementPressed && Ctx.IsRunPressed)
+        else if (Ctx.IsMovementPressed && !Ctx.IsRunPressed)
         {
-            SwitchState(Factory.Run());
+            SwitchState(Factory.Walk());
         }
     }
 
