@@ -1,5 +1,6 @@
 public class IdleState : BaseState
 {
+    
     public IdleState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
         currentContext, playerStateFactory)
     {

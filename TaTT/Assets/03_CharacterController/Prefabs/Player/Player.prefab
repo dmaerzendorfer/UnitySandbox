@@ -811,7 +811,7 @@ GameObject:
   - component: {fileID: 4171368495252078085}
   - component: {fileID: 6298757186786284415}
   - component: {fileID: 1132923944766508040}
-  - component: {fileID: 1132923944766508041}
+  - component: {fileID: 6470454483675215420}
   m_Layer: 0
   m_Name: Jammo_LowPoly
   m_TagString: Untagged
@@ -898,7 +898,7 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.85, z: 0}
---- !u!114 &1132923944766508041
+--- !u!114 &6470454483675215420
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -907,10 +907,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1132923944766508054}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b088b8ecb3efac24cba6971791e55dbf, type: 3}
+  m_Script: {fileID: 11500000, guid: f1c367cab3a44fe88ca45f36fcdbdf73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: c70320ba64e998441b1ae033b5edc49d, type: 2}
+  playerIndex: 0
   animator: {fileID: 6298757186786284415}
   moveRelativeToCamera: 0
 --- !u!1 &1155901730062475750
