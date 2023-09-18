@@ -7,7 +7,6 @@ A little collection of perhaps useful little tools and gadgets for unity.
 
 - A playerController with a Movement Hierarchical State Machine: a simple finite state machine is included as well, furthermore some tinkering with scriptable object as stat-containers has been done, the playerController uses unities new input system, demo controller contains a verlet integration fps consistent triple jump
 In addition: this also includes a PlayerConfigurationManager using unities Player Input Manager. On player join it creates a PlayerConfig prefab and an object that has a players input. A Lobby system uses this to wait for four players to join, ready up and then changes scene. The PlayerInput Manager also houses and distributes stats for players.
-//todo: make the hierarchical stateMachine more generic
 
 - A Menu template with options and scene transitions; transitions are handled by the LevelLoader, There is a prefab for the main menu and a pause menu. The settings of the menu are saved in the playerPrefs and are accessible from anywhere
 //todo: look into scene management and add it here -> eG having persistent scene with level transition etc.

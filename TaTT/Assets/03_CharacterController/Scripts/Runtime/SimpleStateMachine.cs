@@ -6,7 +6,7 @@ using UnityEngine;
 /// A Finite-State-Machine that holds states which are scriptable objects.
 /// Can also be used for concurrent FSMs, just give an object multiple stateControllers
 /// Usage: create a scriptable object that extends the BaseStateSO and implement its methods. Create an instance of the SO, and set it as a member for this script.
-/// Note: This is only a simple statemachine, use the hierarchical statemachine eG PlayerStateMachine for a more sophisticated statemachine.
+/// Note: This is only a simple statemachine, use the hierarchical statemachine for a more sophisticated statemachine.
 /// </summary>
 public class SimpleStateMachine : MonoBehaviour
 {
