@@ -29,7 +29,7 @@ public class ScoreManager : MonoBehaviour
     }
 
     private Dictionary<string, ScoringMatch> _subScores;
-    
+
     /// <summary>
     /// Creates a new Subscore with the given id.
     /// </summary>
@@ -40,6 +40,11 @@ public class ScoreManager : MonoBehaviour
         var subScore = new ScoringMatch();
         _subScores.Add(id, subScore);
         return subScore;
+    }
+
+    public void ReplaceScores(ScoringMatch newScores)
+    {
+        _mainScore = newScores;
     }
 
     public List<string> GetCurrentSubScoreIds()
@@ -116,5 +121,4 @@ public class ScoreManager : MonoBehaviour
             mainScore.AddScore(score.Key, score.Value);
         }
     }
-
 }

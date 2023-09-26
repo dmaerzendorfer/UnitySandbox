@@ -12,7 +12,7 @@ In addition: this also includes a PlayerConfigurationManager using unities Playe
 //todo: look into scene management and add it here -> eG having persistent scene with level transition etc.
 
 - A Score System: A script for counting points, extendable to be used for multiple players and multiple nested levels of points eG points for the meta-game and points for minigames inside of the meta game.
-//possible extension: a persistent leaderboard :)
+Includes an (untested) implementation of a ScorePersister that saves and loads the mainScore as a json from/to the streamingAssets.
 
 - A Dialog system: tbd in detail see https://gamedevbeginner.com/dialogue-systems-in-unity/
 

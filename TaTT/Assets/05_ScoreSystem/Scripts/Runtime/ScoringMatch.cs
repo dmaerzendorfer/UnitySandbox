@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
+[Serializable]
 public class ScoringMatch
 {
     private Dictionary<string, float> _scores = new Dictionary<string, float>();
