@@ -11,6 +11,9 @@ In addition: this also includes a PlayerConfigurationManager using unities Playe
 - A Menu template with options and scene transitions; transitions are handled by the LevelLoader, There is a prefab for the main menu and a pause menu. The settings of the menu are saved in the playerPrefs and are accessible from anywhere
 //todo: look into scene management and add it here -> eG having persistent scene with level transition etc.
 
+- A Score System: A script for counting points, extendable to be used for multiple players and multiple nested levels of points eG points for the meta-game and points for minigames inside of the meta game.
+//possible extension: a persistent leaderboard :)
+
 - A Dialog system: tbd in detail see https://gamedevbeginner.com/dialogue-systems-in-unity/
 
 - Phones as controllers: implemented in a way to fit into unities new Input system.
