@@ -14,6 +14,8 @@ In addition: this also includes a PlayerConfigurationManager using unities Playe
 - A Score System: A script for counting points, extendable to be used for multiple players and multiple nested levels of points eG points for the meta-game and points for minigames inside of the meta game.
 Includes an (untested) implementation of a ScorePersister that saves and loads the mainScore as a json from/to the streamingAssets.
 
+- A really fancy polished knockback on other players: eg camera shake, nice duration, force, still controll, ample amount of juice, sfx, vfx, particles etc...
+
 - A Dialog system: tbd in detail see https://gamedevbeginner.com/dialogue-systems-in-unity/
 
 - Phones as controllers: implemented in a way to fit into unities new Input system.
