@@ -16,6 +16,10 @@ Includes an (untested) implementation of a ScorePersister that saves and loads t
 
 - A really fancy polished knockback on other players: eg camera shake, nice duration, force, still controll, ample amount of juice, sfx, vfx, particles etc...
 
+- My own implementation of a raycast: just for funsies
+
+- A custom UI grid component: check out "Game Dev Guide" on youtube. unity ui grid sucks
+
 - A Dialog system: tbd in detail see https://gamedevbeginner.com/dialogue-systems-in-unity/
 
 - Phones as controllers: implemented in a way to fit into unities new Input system.
