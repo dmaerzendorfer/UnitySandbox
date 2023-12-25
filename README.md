@@ -14,6 +14,8 @@ In addition: this also includes a PlayerConfigurationManager using unities Playe
 - A Score System: A script for counting points, extendable to be used for multiple players and multiple nested levels of points eG points for the meta-game and points for minigames inside of the meta game.
 Includes an (untested) implementation of a ScorePersister that saves and loads the mainScore as a json from/to the streamingAssets.
 
+- A fake liquid shader based on: https://www.youtube.com/watch?v=DKSpgFuKeb4
+
 - A really fancy polished knockback on other players: eg camera shake, nice duration, force, still controll, ample amount of juice, sfx, vfx, particles etc...
 
 - My own implementation of a raycast: just for funsies
