@@ -3,7 +3,7 @@ Shader "CustomShaders/HealthBar"
     Properties
     {
         [Space(10)]
-        [KeywordEnum(Circle,Box, Rhombus)] _shape("Shape",Float) = 0
+        [KeywordEnum(Circle,Box, Rhombus, Ring)] _shape("Shape",Float) = 0
         _healthNormalized("Health Normalized", Range(0,1)) = 0.0
         _lowHealthThreshold("Low Health Threshold", Range(0,1)) = 0.2
         _fillColor("Fill Start Color", Color) = (0,0,0,0)
@@ -16,27 +16,29 @@ Shader "CustomShaders/HealthBar"
         [Space(10)]
         _backgroundColor("Background Color", Color) = (0,0,0,0.25)
         _borderWidth("Border Width", Range(0,0.4)) = 0
-        _borderColor("Border Color", Color) = (0.1,0.1,0.1,1)       
+        _borderColor("Border Color", Color) = (0.1,0.1,0.1,1)
     }
 
     SubShader
     {
-        Tags { "RenderType" = "Transparent" "Queue" = "Transparent" "RenderPipeline" = "UniversalPipeline" }
+        Tags
+        {
+            "RenderType" = "Transparent" "Queue" = "Transparent" "RenderPipeline" = "UniversalPipeline"
+        }
 
         Blend SrcAlpha OneMinusSrcAlpha
-        
+
         Pass
         {
             HLSLPROGRAM
-
-            #pragma shader_feature _SHAPE_CIRCLE _SHAPE_BOX _SHAPE_RHOMBUS
+            #pragma shader_feature _SHAPE_CIRCLE _SHAPE_BOX _SHAPE_RHOMBUS _SHAPE_RING
 
             #pragma vertex vert
             #pragma fragment frag
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "MyFunctions.hlsl"
-            
+
             CBUFFER_START(UnityPerMaterial)
             // write properties (uniforms declared also on the property block on top) here for the shader to be SRP Batcher compatible 
             float _healthNormalized;
@@ -76,18 +78,24 @@ Shader "CustomShaders/HealthBar"
                 float margin = minScale * 0.1;
 
                 // we 'elongate' instead of 'scaling' SDF to keep euclidean distance (so we can apply antialias easily)
-                float3 _shapeElongation = (_objectScale - minScale)/2;
+                float3 _shapeElongation = (_objectScale - minScale) / 2;
 
                 // Apply elongation operation to fragment position
                 float3 p = (IN.positionOS) * _objectScale;
                 float3 q = Elongate(p, _shapeElongation);
 
                 // CONTAINER
-                float halfSize = minScale/2 - margin;
+                float halfSize = minScale / 2 - margin;
 
                 #if _SHAPE_CIRCLE
                 float healthBarSDF = CircleSDF(q, halfSize);
                 #endif
+
+                #if _SHAPE_RING
+                float healthBarSDF = RingSDF(q, halfSize, halfSize);
+                //float healthBarSDF = PentagonSDF(q, halfSize);
+                #endif
+
 
                 #if _SHAPE_BOX
                 float healthBarSDF = BoxSDF(q, halfSize);
@@ -97,35 +105,38 @@ Shader "CustomShaders/HealthBar"
                 float healthBarSDF = RhombusSDF(q, float2(halfSize, halfSize));
                 #endif
 
+
                 float healthBarMask = GetSmoothMask(healthBarSDF);
 
                 // LIQUID/FILLER
                 // min(sin) term is used to decrease effect of wave near 0 and 1 healthNormalized.
-                float waveOffset = _waveAmp*cos(_waveFreq*(IN.uv.x + _Time.y*_waveSpeed)) * min(1.3f*sin(PI * _healthNormalized), 1);
-                float marginNormalizedY = margin/_objectScale.y;
+                float waveOffset = _waveAmp * cos(_waveFreq * (IN.uv.x + _Time.y * _waveSpeed)) * min(
+                    1.3f * sin(PI * _healthNormalized), 1);
+                float marginNormalizedY = margin / _objectScale.y;
                 float borderNormalizedY = _borderWidth;
                 float fillOffset = marginNormalizedY + borderNormalizedY;
 
-                float healthMapped = lerp(fillOffset -0.01f, 1 - fillOffset, _healthNormalized);
+                float healthMapped = lerp(fillOffset - 0.01f, 1 - fillOffset, _healthNormalized);
                 float fillSDF = IN.uv.y - healthMapped + waveOffset;
                 float fillMask = GetSmoothMask(fillSDF);
 
                 // BORDER 
-                float borderSDF = healthBarSDF + _borderWidth*_objectScale.y;
-                float borderMask =  1 - GetSmoothMask(borderSDF);
+                float borderSDF = healthBarSDF + _borderWidth * _objectScale.y;
+                float borderMask = 1 - GetSmoothMask(borderSDF);
 
                 // Get final color by combining masks
-                float4 outColor = healthBarMask * (fillMask * (1 - borderMask) * _fillColor + (1 - fillMask) * (1 - borderMask) * _backgroundColor + borderMask * _borderColor);
-                
+                float4 outColor = healthBarMask * (fillMask * (1 - borderMask) * _fillColor + (1 - fillMask) * (1 -
+                    borderMask) * _backgroundColor + borderMask * _borderColor);
+
                 // Highlight center
-                outColor *= float4(2 - healthBarSDF/(minScale/2).xxx, 1);
+                outColor *= float4(2 - healthBarSDF / (minScale / 2).xxx, 1);
 
                 // Add flash effect on low life
-                if (_healthNormalized < _lowHealthThreshold) 
+                if (_healthNormalized < _lowHealthThreshold)
                 {
-                    float flash = 0.1*cos(6*_Time.y) + 0.1;
+                    float flash = 0.1 * cos(6 * _Time.y) + 0.1;
                     outColor.xyz += flash;
-                } 
+                }
                 return outColor;
             }
             ENDHLSL

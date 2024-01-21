@@ -7,7 +7,8 @@ public class HealthBar : MonoBehaviour
     {
         Circle,
         Box,
-        Rhombus
+        Rhombus,
+        Ring
     };
 
     [SerializeField] ShapeType _shape;
@@ -102,6 +103,7 @@ public class HealthBar : MonoBehaviour
         if (_shape == ShapeType.Circle) _matInstance.EnableKeyword("_SHAPE_CIRCLE");
         else if (_shape == ShapeType.Box) _matInstance.EnableKeyword("_SHAPE_BOX");
         else if (_shape == ShapeType.Rhombus) _matInstance.EnableKeyword("_SHAPE_RHOMBUS");
+        else if (_shape == ShapeType.Ring) _matInstance.EnableKeyword("_SHAPE_RING");
 
         //Sync shader keywordEnum
         _matInstance.SetInt("_shape", (int)_shape);
