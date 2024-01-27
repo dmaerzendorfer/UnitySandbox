@@ -58,13 +58,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Alpha: 0.646
     - _AlphaClip: 1
     - _Blend: 0
     - _CastShadows: 1
     - _Cull: 2
+    - _DecalMeshBiasType: 0
+    - _DecalMeshDepthBias: 0
+    - _DecalMeshViewBias: 0
     - _DissolveAmount: 0
     - _DissolveScale: 40
     - _DissolveWidth: 0.02
+    - _DrawOrder: 0
     - _DstBlend: 0
     - _Metallic: 0
     - _NormalStrength: 0.1
@@ -79,6 +84,6 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _BaseColor: {r: 0.9559669, g: 0.9607843, b: 0, a: 1}
-    - _DissolveColor: {r: 0, g: 0.6745098, b: 4, a: 0}
+    - _BaseColor: {r: 0.745283, g: 0.41951463, b: 0.41951463, a: 1}
+    - _DissolveColor: {r: 0, g: 1.3167462, b: 62.87463, a: 0}
   m_BuildTextureStacks: []

@@ -7,8 +7,8 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: idle_salsa
-  m_Speed: 1
+  m_Name: idle_dance
+  m_Speed: 1.25
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 4080661625831016632}
@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: a1576e36a4cd56643a896a1767527f21,
+  m_Motion: {fileID: -203655887218126122, guid: 7fc4af394ce02394f95f1f0e128ac7be,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -64,7 +64,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: flip
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 2769691279573629055}
