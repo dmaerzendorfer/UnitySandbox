@@ -16,6 +16,8 @@ Includes an (untested) implementation of a ScorePersister that saves and loads t
 
 - A fake liquid shader based on: https://www.youtube.com/watch?v=DKSpgFuKeb4
 
+- A sandbox of VFX
+
 - A really fancy polished knockback on other players: eg camera shake, nice duration, force, still controll, ample amount of juice, sfx, vfx, particles etc...
 
 - My own implementation of a raycast: just for funsies
