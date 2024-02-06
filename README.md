@@ -1,7 +1,7 @@
-# TrainsAndTracksTool
+# UnitySandbox
 A little collection of perhaps useful little tools and gadgets for unity.
 
-- Spline Tool: A small tool for creating splines in unity and letting things follow the generated track. (dont use it, there is a better free package in the store -> Dreamteck Splines)
+- Spline Tool: A small tool for creating splines in unity and letting things follow the generated track. (dont use it, there is a better free package in the store -> Dreamteck Splines, this was mostly just to test things myself)
 
 - A Healthbar Component: an implementation for a health system, includes events for onDamage, onHeal, onHealthChange and onDeath. Supports different types of health representations (HealthBar ->normal unity slider, Hearts -> integer health represented as health(needs to be extended for half hearts etc), Shader -> a procedual healthbar shader (by https://github.com/josebasierra/procedural-healthbar-shader))
 
@@ -16,7 +16,10 @@ Includes an (untested) implementation of a ScorePersister that saves and loads t
 
 - A fake liquid shader based on: https://www.youtube.com/watch?v=DKSpgFuKeb4
 
-- A sandbox of VFX
+- A sandbox for VFX
+
+
+### Things I want to add in the future:
 
 - A really fancy polished knockback on other players: eg camera shake, nice duration, force, still controll, ample amount of juice, sfx, vfx, particles etc...
 
@@ -32,5 +35,4 @@ Includes an (untested) implementation of a ScorePersister that saves and loads t
 
 - A nice 2D jump: to be done in the future (partly in the playerController thingy, want to do a specific one however)
 
-
-- something with a shader: want to write one myself: TBD about what
+- A raymarch renderer with some SDFs
