@@ -18,6 +18,9 @@ Includes an (untested) implementation of a ScorePersister that saves and loads t
 
 - A sandbox for VFX
 
+- A ColorPaletteShifter (a singleton that allows easy setup for colorpalettes and observers that update their color if the currentPalette changes) also works in the editor!
+also added a little demo scene with some fancy pixel filter and other effects (ape out was the inspiration for this little experiment :) )
+
 
 ### Things I want to add in the future:
 
