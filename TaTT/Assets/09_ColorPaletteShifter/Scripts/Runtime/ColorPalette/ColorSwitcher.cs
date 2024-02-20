@@ -11,6 +11,7 @@ namespace _09_ColorPaletteShifter.Scripts.Runtime
         private SpriteRenderer _spriteRenderer;
 
         private MeshRenderer _meshRenderer;
+        private SkinnedMeshRenderer _skinnedMeshRenderer;
         private Image _image;
 
         private ColorPaletteManager _colorPaletteManager;
@@ -23,6 +24,7 @@ namespace _09_ColorPaletteShifter.Scripts.Runtime
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _meshRenderer = GetComponent<MeshRenderer>();
+            _skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
             _image = GetComponent<Image>();
 
             _colorPaletteManager = ColorPaletteManager.Instance;
@@ -39,6 +41,12 @@ namespace _09_ColorPaletteShifter.Scripts.Runtime
                 tempMaterial = new Material(_meshRenderer.sharedMaterial);
                 _meshRenderer.sharedMaterial = tempMaterial;
             }
+            if (_skinnedMeshRenderer)
+            {
+                tempMaterial = new Material(_skinnedMeshRenderer.sharedMaterial);
+                _skinnedMeshRenderer.sharedMaterial = tempMaterial;
+            }
+
 #endif
 
             if (_colorPaletteManager == null)
@@ -69,6 +77,13 @@ namespace _09_ColorPaletteShifter.Scripts.Runtime
                         _meshRenderer.sharedMaterial.color = newPalette.GetColor(nameInPalette);
                     else
                         _meshRenderer.material.color = newPalette.GetColor(nameInPalette);
+                }
+                if (_skinnedMeshRenderer != null)
+                {
+                    if (useSharedMaterial)
+                        _skinnedMeshRenderer.sharedMaterial.color = newPalette.GetColor(nameInPalette);
+                    else
+                        _skinnedMeshRenderer.material.color = newPalette.GetColor(nameInPalette);
                 }
 
                 if (_image != null)
