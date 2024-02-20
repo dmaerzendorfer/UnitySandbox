@@ -7,6 +7,7 @@ namespace _09_ColorPaletteShifter.Scripts.Runtime
     public class ColorSwitcher : MonoBehaviour, IColorSwitcher
     {
         public string nameInPalette;
+        public bool useSharedMaterial = false;
         private SpriteRenderer _spriteRenderer;
 
         private MeshRenderer _meshRenderer;
@@ -14,14 +15,29 @@ namespace _09_ColorPaletteShifter.Scripts.Runtime
 
         private ColorPaletteManager _colorPaletteManager;
 
+#if UNITY_EDITOR
+        private Material tempMaterial;
+#endif
+
         private void Start()
         {
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _meshRenderer = GetComponent<MeshRenderer>();
+            _image = GetComponent<Image>();
+
             _colorPaletteManager = ColorPaletteManager.Instance;
 #if UNITY_EDITOR
             //in the editor the singleton might not be set yet.
             if (_colorPaletteManager == null)
             {
                 _colorPaletteManager = FindObjectOfType<ColorPaletteManager>();
+            }
+
+            //also create a temp material so we dont have any material leakage
+            if (_meshRenderer)
+            {
+                tempMaterial = new Material(_meshRenderer.sharedMaterial);
+                _meshRenderer.sharedMaterial = tempMaterial;
             }
 #endif
 
@@ -33,9 +49,6 @@ namespace _09_ColorPaletteShifter.Scripts.Runtime
 
             _colorPaletteManager.Subscribe(this);
 
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-            _meshRenderer = GetComponent<MeshRenderer>();
-            _image = GetComponent<Image>();
 
             ApplyPalette(_colorPaletteManager.GetCurrentPalette());
         }
@@ -52,7 +65,10 @@ namespace _09_ColorPaletteShifter.Scripts.Runtime
 
                 if (_meshRenderer != null)
                 {
-                    _meshRenderer.sharedMaterial.color = newPalette.GetColor(nameInPalette);
+                    if (useSharedMaterial)
+                        _meshRenderer.sharedMaterial.color = newPalette.GetColor(nameInPalette);
+                    else
+                        _meshRenderer.material.color = newPalette.GetColor(nameInPalette);
                 }
 
                 if (_image != null)
