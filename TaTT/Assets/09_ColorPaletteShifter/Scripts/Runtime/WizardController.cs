@@ -82,7 +82,10 @@ public class WizardController : MonoBehaviour
 
     public void ChangePalette(InputAction.CallbackContext context)
     {
-        impulseSource.GenerateImpulseWithVelocity(new Vector3(0.5f,0.5f,0f));
-        ColorPaletteManager.Instance.ChangeToNextPalette();
+        if (context.started)
+        {
+            impulseSource.GenerateImpulseWithVelocity(new Vector3(0.5f, 0.5f, 0f));
+            ColorPaletteManager.Instance.ChangeToNextPalette();
+        }
     }
 }

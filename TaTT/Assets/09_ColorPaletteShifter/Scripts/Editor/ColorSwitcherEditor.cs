@@ -4,7 +4,7 @@ using UnityEditor;
 
 namespace _09_ColorPaletteShifter.Scripts.Editor
 {
-    [CustomEditor(typeof(ColorSwitcher))]
+    [CustomEditor(typeof(ColorSwitcher)), CanEditMultipleObjects]
     public class ColorSwitcherEditor : UnityEditor.Editor
     {
         public SerializedProperty nameInPallete;
