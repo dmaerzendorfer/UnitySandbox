@@ -21,8 +21,14 @@ Includes an (untested) implementation of a ScorePersister that saves and loads t
 - A ColorPaletteShifter (a singleton that allows easy setup for colorpalettes and observers that update their color if the currentPalette changes) also works in the editor!
 also added a little demo scene with some fancy pixel filter and other effects (ape out was the inspiration for this little experiment :) )
 
+- A simple AudioManager in Unity: based on https://www.youtube.com/watch?v=6OT43pvUyfY ment for the usage in GameJams where its not worth it to integrate fmod or wwise.
+
 
 ### Things I want to add in the future:
+
+- A system that allows you to shatter any mesh! (https://www.youtube.com/watch?v=VwGiwDLQ40A) (good package would be openFracture) (this also looks cool https://www.youtube.com/watch?v=BPwpos7XWms) (https://www.youtube.com/watch?v=1UsuZsaUUng)
+
+- A system for dynamically cut meshes (most likely just little trial, there are better options for this such as the EzySlice Package)
 
 - A really fancy polished knockback on other players: eg camera shake, nice duration, force, still controll, ample amount of juice, sfx, vfx, particles etc...
 
@@ -39,3 +45,13 @@ also added a little demo scene with some fancy pixel filter and other effects (a
 - A nice 2D jump: to be done in the future (partly in the playerController thingy, want to do a specific one however)
 
 - A raymarch renderer with some SDFs
+
+- Something with procedural Animations
+
+- A grid building system (https://www.youtube.com/watch?v=l0emsAHIBjU)
+
+- A Character Creator (with lots of sliders for body type, face etc)
+
+- A PlayerController that functions like the Skyscale Mount in Guild Wars 2
+
+- Something for wacky controls (maybe ragdolls as well?) (compare: sticky cats, human fall flat, gang beasts, ...)
