@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using _Generics.Scripts.Runtime;
 using UnityEngine;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
 {
     private ScoringMatch _mainScore;
 
@@ -10,22 +11,6 @@ public class ScoreManager : MonoBehaviour
     {
         get => _mainScore;
         private set => _mainScore = value;
-    }
-
-    public static ScoreManager Instance { get; private set; }
-
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            _mainScore = new ScoringMatch();
-            _subScores = new Dictionary<string, ScoringMatch>();
-            Instance = this;
-        }
     }
 
     private Dictionary<string, ScoringMatch> _subScores;
@@ -42,7 +27,7 @@ public class ScoreManager : MonoBehaviour
         return subScore;
     }
 
-    public void ReplaceScores(ScoringMatch newScores)
+    public void ReplaceMainScores(ScoringMatch newScores)
     {
         _mainScore = newScores;
     }
@@ -95,6 +80,7 @@ public class ScoreManager : MonoBehaviour
             _subScores.Remove(id);
         }
     }
+    #region DemoResolveFunctions
 
     /// <summary>
     /// A simple ScoreResolve function provided for convenience.
@@ -104,8 +90,11 @@ public class ScoreManager : MonoBehaviour
     /// <param name="subScore"></param>
     public static void MostPointsGetsOnePoint(ScoringMatch mainScore, ScoringMatch subScore)
     {
-        string winId = subScore.GetBestScore();
-        mainScore.AddScore(winId, 1);
+        var winners = subScore.GetBestScores();
+        foreach (var winId in winners)
+        {
+            mainScore.AddScore(winId, 1);
+        }
     }
 
     /// <summary>
@@ -121,4 +110,24 @@ public class ScoreManager : MonoBehaviour
             mainScore.AddScore(score.Key, score.Value);
         }
     }
+    
+    /// <summary>
+    /// A simple scoreResolve function provided for convenience.
+    /// The first place of the subScore gets three points, second place gets two points, third place gets one point.
+    /// Does also handle ties and draws.
+    /// </summary>
+    /// <param name="mainScore"></param>
+    /// <param name="subScore"></param>
+    public static void ThreeToOnePoints(ScoringMatch mainScore, ScoringMatch subScore)
+    {
+        if (subScore.Scores.Count > 0)
+        {
+            var scoreBoard = subScore.GetThreeTwoOneScoreBoard();
+            foreach (var scoring in scoreBoard)
+            {
+                mainScore.AddScore(scoring.Item1, scoring.Item2);
+            }
+        }
+    }
+    #endregion
 }
