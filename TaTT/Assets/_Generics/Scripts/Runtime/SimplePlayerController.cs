@@ -12,6 +12,18 @@ namespace _Generics.Scripts.Runtime
     {
         private const float Gravity = -9.81f;
 
+        #region Animations
+
+        [SerializeField]
+        private Animator animator;
+
+        //animation hashes
+        private int _isJoggingHash;
+        private int _isSprintingHash;
+        private int _isGroundedHash;
+
+        #endregion
+
         #region MovementVariables
 
         [SerializeField]
@@ -37,6 +49,11 @@ namespace _Generics.Scripts.Runtime
         [SerializeField]
         private float gravityMultiplier = 1f;
 
+        [SerializeField]
+        private float coyoteTime = .1f;
+
+        private float _currentCoyoteTime = 0f;
+
         private float _gravityVelocity; //for gravity
 
         #endregion
@@ -57,23 +74,33 @@ namespace _Generics.Scripts.Runtime
         private void Awake()
         {
             _characterController = GetComponent<CharacterController>();
+
+            //setup animations
+            _isJoggingHash = Animator.StringToHash("isJogging");
+            _isSprintingHash = Animator.StringToHash("isSprinting");
+            _isGroundedHash = Animator.StringToHash("isGrounded");
         }
 
         private void Update()
         {
+            CoyoteControl();
             ApplyGravity();
             ApplyRotation();
             ApplyMovement();
+
+            CoyoteControl();
         }
 
         private void ApplyGravity()
         {
             if (IsGrounded() && _gravityVelocity < 0.0f && gravityMultiplier != 0f)
             {
+                animator.SetBool(_isGroundedHash, true);
                 _gravityVelocity = -1.0f;
             }
             else
             {
+                animator.SetBool(_isGroundedHash, false);
                 _gravityVelocity += Gravity * gravityMultiplier * Time.deltaTime;
             }
 
@@ -91,10 +118,22 @@ namespace _Generics.Scripts.Runtime
 
         private void ApplyMovement()
         {
+            if (_input.sqrMagnitude == 0)
+            {
+                animator.SetBool(_isJoggingHash, false);
+            }
+            else
+            {
+                animator.SetBool(_isJoggingHash, true);
+            }
+
             var targetSpeed = movement.isSprinting ? movement.speed * movement.multiplier : movement.speed;
             movement.currentSpeed =
                 Mathf.MoveTowards(movement.currentSpeed, targetSpeed, movement.acceleration * Time.deltaTime);
-            _characterController.Move(_direction * (movement.currentSpeed * Time.deltaTime));
+            var unscaledJump = _direction.y;
+            var motion = _direction * (movement.currentSpeed * Time.deltaTime);
+            motion.y = unscaledJump * (movement.speed * Time.deltaTime);
+            _characterController.Move(motion);
         }
 
         public void Move(InputAction.CallbackContext context)
@@ -117,16 +156,34 @@ namespace _Generics.Scripts.Runtime
         public void Sprint(InputAction.CallbackContext context)
         {
             movement.isSprinting = context.started || context.performed;
+            animator.SetBool(_isSprintingHash, movement.isSprinting);
         }
 
         private IEnumerator WaitForLanding()
         {
             yield return new WaitUntil(() => !IsGrounded());
             yield return new WaitUntil(IsGrounded);
+
             _numberOfJumps = 0;
         }
 
-        private bool IsGrounded() => _characterController.isGrounded;
+        private bool IsGrounded()
+        {
+            // return _characterController.isGrounded;
+            return _currentCoyoteTime < coyoteTime;
+        }
+
+        public void CoyoteControl()
+        {
+            if (_characterController.isGrounded)
+            {
+                _currentCoyoteTime = 0f;
+            }
+            else
+            {
+                _currentCoyoteTime += Time.deltaTime;
+            }
+        }
     }
 }
 
@@ -138,5 +195,4 @@ public struct Movement
     public float acceleration;
     [HideInInspector] public bool isSprinting;
     [HideInInspector] public float currentSpeed;
-    
 }
