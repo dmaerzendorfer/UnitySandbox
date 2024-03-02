@@ -23,12 +23,12 @@ also added a little demo scene with some fancy pixel filter and other effects (a
 
 - A simple AudioManager in Unity: based on https://www.youtube.com/watch?v=6OT43pvUyfY ment for the usage in GameJams where its not worth it to integrate fmod or wwise.
 
+- A Shatter and Cut system for dynamically cutting meshes in Unity. Pretty much just copied code from https://www.youtube.com/watch?v=VwGiwDLQ40A and https://www.youtube.com/watch?v=1UsuZsaUUng and then tried around a bit. Not for any commercial use, better use a proper package such as EzySlice.
+
 
 ### Things I want to add in the future:
 
-- A system that allows you to shatter any mesh! (https://www.youtube.com/watch?v=VwGiwDLQ40A) (good package would be openFracture) (this also looks cool https://www.youtube.com/watch?v=BPwpos7XWms) (https://www.youtube.com/watch?v=1UsuZsaUUng)
-
-- A system for dynamically cut meshes (most likely just little trial, there are better options for this such as the EzySlice Package)
+- Something with ragdolls eG a playerController similiar to human fall flat, sticky cats or gang beasts
 
 - A really fancy polished knockback on other players: eg camera shake, nice duration, force, still controll, ample amount of juice, sfx, vfx, particles etc...
 
