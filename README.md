@@ -25,6 +25,8 @@ also added a little demo scene with some fancy pixel filter and other effects (a
 
 - A Shatter and Cut system for dynamically cutting meshes in Unity. Pretty much just copied code from https://www.youtube.com/watch?v=VwGiwDLQ40A and https://www.youtube.com/watch?v=1UsuZsaUUng and then tried around a bit. Not for any commercial use, better use a proper package such as EzySlice.
 
+- A little experiment on 2.5D scenes and shell texturing.
+
 
 ### Things I want to add in the future:
 
