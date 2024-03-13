@@ -30,6 +30,8 @@ also added a little demo scene with some fancy pixel filter and other effects (a
 
 ### Things I want to add in the future:
 
+- some testing with wacky ragdoll player controllers since I stumbled over it during a game jam (fetality ;) ) check out https://www.youtube.com/watch?v=77h0_iX7dUM&list=PLP_d6nDOwudUeolxSgyJbZdKBLxeBBL34&index=2
+
 - Something on shell texturing for grass and or fur (see: https://www.youtube.com/watch?v=wbEn3PqX80c or https://github.com/hecomi/UnityFurURP or https://www.youtube.com/watch?v=9dr-tRQzij4)
 
 - Something with ragdolls eG a playerController similiar to human fall flat, sticky cats or gang beasts
