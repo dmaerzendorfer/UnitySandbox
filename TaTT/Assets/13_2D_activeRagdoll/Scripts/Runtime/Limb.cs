@@ -59,7 +59,6 @@ namespace _13_2D_activeRagdoll.Scripts.Runtime
             while (elapsedTime < shakeDuration)
             {
                 float t = (elapsedTime) / shakeDuration;
-                // float curveValue = Mathf.Sin(t * 2 * Mathf.PI);
                 float curveValue = animationCurve.Evaluate(t);
                 float torque = curveValue * maxTorque * startDir;
 

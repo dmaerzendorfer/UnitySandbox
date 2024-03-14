@@ -1,3 +1,4 @@
+using System;
 using _Generics.Scripts.Runtime;
 using NaughtyAttributes;
 using UnityEngine;
@@ -14,6 +15,9 @@ namespace _13_2D_activeRagdoll.Scripts.Runtime
 
         [BoxGroup("MovementValues")]
         public float movementSpeed = 2f;
+
+        [BoxGroup("MovementValues")]
+        public float movementDeadzone = 0.1f;
 
         [BoxGroup("MovementValues")]
         [Tooltip(
@@ -43,8 +47,16 @@ namespace _13_2D_activeRagdoll.Scripts.Runtime
         public void OnInputDirection(InputAction.CallbackContext context)
         {
             _inputDirection = context.ReadValue<Vector2>();
-            ragdollBody.ApplyFullBodyForceImpulse(_inputDirection, movementSpeed, ForceMode2D.Impulse, false,
-                moveRandomness);
+        }
+
+        public void Update()
+        {
+            //apply movement
+            if (movementSpeed > 0 && _inputDirection.magnitude > movementDeadzone)
+            {
+                ragdollBody.ApplyRootForce(_inputDirection, movementSpeed, ForceMode2D.Force, false,
+                    moveRandomness);
+            }
         }
 
         public void OnDash(InputAction.CallbackContext context)
@@ -65,12 +77,14 @@ namespace _13_2D_activeRagdoll.Scripts.Runtime
 
         private void UpdateDashCooldown()
         {
-            _dashAbility.CooldownDuration = dashCooldown;
+            if (_dashAbility != null)
+                _dashAbility.CooldownDuration = dashCooldown;
         }
 
         private void UpdateShakeCooldown()
         {
-            _shakeAbility.CooldownDuration = shakeCooldown;
+            if (_shakeAbility != null)
+                _shakeAbility.CooldownDuration = shakeCooldown;
         }
     }
 }

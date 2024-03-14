@@ -36,7 +36,7 @@ namespace _13_2D_activeRagdoll.Scripts.Runtime
         /// <param name="forceMode"></param>
         /// <param name="zeroOutVelocity"></param>
         /// <param name="rotationRandomness"></param>
-        public void ApplyFullBodyForceImpulse(Vector2 direction, float power,
+        public void ApplyFullBodyForce(Vector2 direction, float power,
             ForceMode2D forceMode = ForceMode2D.Impulse, bool zeroOutVelocity = true, float rotationRandomness = 0f)
         {
             ApplyRootForce(direction, power, forceMode, zeroOutVelocity, rotationRandomness);
