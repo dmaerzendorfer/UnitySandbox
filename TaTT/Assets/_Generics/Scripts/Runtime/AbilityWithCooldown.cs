@@ -1,15 +1,26 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace _Generics.Scripts.Runtime
 {
+    [Serializable]
     public class AbilityWithCooldown
     {
+        public UnityEvent onCooldownOver = new UnityEvent();
+        public bool IsOnCooldown { get; set; } = false;
+        public float CooldownDuration
+        {
+            get => _cooldownDuration;
+            set => _cooldownDuration = value;
+        }
+
         private MonoBehaviour _user; //needed to start coroutine
+
         private float _cooldownDuration;
         private Action _abilityAction;
-        public bool IsOnCooldown { get; set; } = false;
+
 
         public AbilityWithCooldown(MonoBehaviour user, float duration, Action ability)
         {
@@ -40,6 +51,7 @@ namespace _Generics.Scripts.Runtime
             IsOnCooldown = true;
             yield return new WaitForSeconds(_cooldownDuration);
             IsOnCooldown = false;
+            onCooldownOver.Invoke();
         }
     }
 }
