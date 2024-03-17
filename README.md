@@ -27,14 +27,16 @@ also added a little demo scene with some fancy pixel filter and other effects (a
 
 - A little experiment on 2.5D scenes.
 
+- A little scene with a 2D ragdoll, it has a floaty player controller with no gravity
+
 
 ### Things I want to add in the future:
 
-- some testing with wacky ragdoll player controllers since I stumbled over it during a game jam (fetality ;) ) check out https://www.youtube.com/watch?v=77h0_iX7dUM&list=PLP_d6nDOwudUeolxSgyJbZdKBLxeBBL34&index=2
+- A Verlet 2d rope simulation with a line renderer (tested in 2d, no collisions (yet?)) https://www.youtube.com/watch?v=PGk0rnyTa1U&t=299s
 
 - Something on shell texturing for grass and or fur (see: https://www.youtube.com/watch?v=wbEn3PqX80c or https://github.com/hecomi/UnityFurURP or https://www.youtube.com/watch?v=9dr-tRQzij4)
 
-- Something with ragdolls eG a playerController similiar to human fall flat, sticky cats or gang beasts
+- ragdoll player controller in 3d, eG gang beasts or human fall flat as comparison
 
 - A really fancy polished knockback on other players: eg camera shake, nice duration, force, still controll, ample amount of juice, sfx, vfx, particles etc...
 
