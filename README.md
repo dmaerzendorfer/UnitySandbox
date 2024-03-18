@@ -29,8 +29,6 @@ also added a little demo scene with some fancy pixel filter and other effects (a
 
 - A little scene with a 2D ragdoll, it has a floaty player controller with no gravity
 
-- A simple rope simulation via a verlet integration. for 2d or 3d, uses a line renderer and some extra code. Does not support collisions right now.
-
 
 ### Things I want to add in the future:
 
