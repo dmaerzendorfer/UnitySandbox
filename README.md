@@ -32,9 +32,19 @@ also added a little demo scene with some fancy pixel filter and other effects (a
 
 ### Things I want to add in the future:
 
+- Eyes! a simple customizable system to add eyes to anything and everything, for juice purposes and to make stuff cute!
+    - maybe via a shader?
+    - options to follow/look at a transform
+    - let them blink!
+    - add optional mouth! that can be triggered to be happy or sad (just make it upside down and or scale it in y)
+    compare https://www.youtube.com/watch?v=Fy0aCDmgnxg and world of goo!
+    - https://forum.unity.com/threads/procedural-eyes.454758/ good ref! might steal!
+
 - A Verlet 2d rope simulation with a line renderer (tested in 2d, no collisions (yet?)) https://www.youtube.com/watch?v=PGk0rnyTa1U&t=299s
 
 - Something on shell texturing for grass and or fur (see: https://www.youtube.com/watch?v=wbEn3PqX80c or https://github.com/hecomi/UnityFurURP or https://www.youtube.com/watch?v=9dr-tRQzij4)
+
+- A grid building system (https://www.youtube.com/watch?v=l0emsAHIBjU)
 
 - ragdoll player controller in 3d, eG gang beasts or human fall flat as comparison
 
