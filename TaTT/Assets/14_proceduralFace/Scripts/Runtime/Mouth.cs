@@ -1,11 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-[RequireComponent(typeof(MeshFilter))]
-[RequireComponent(typeof(MeshRenderer))]
-[ExecuteInEditMode]
-public class ProceduralEye : MonoBehaviour {
-
-	//Send mesh data
+namespace _14_proceduralFace.Scripts.Runtime
+{
+    [RequireComponent(typeof(MeshRenderer))]
+    [RequireComponent(typeof(MeshFilter))]
+    [ExecuteInEditMode]
+    public class Mouth : MonoBehaviour
+    {
+    //Send mesh data
 	private MeshFilter mf;
 	private Mesh mesh;
 
@@ -24,25 +27,6 @@ public class ProceduralEye : MonoBehaviour {
 	//Points
 	private Vector2[] uv2;
 
-	public float width;
-
-	public float height;
-
-	public bool smile = true;
-	[Range(0, 1)]
-	public float borderPercent;
-
-	public Color innerColor;
-	public Color borderColor;
-	
-	//Is mouth closed (used by blink controller)
-	[Range(0, 1)]
-	public float percentClosed;
-
-	//Point for closing mouth towards
-	[Range(0, 1)]
-	public float closedPoint;
-	
 	[Range(-45, 45)]
 	public float topAngle;
 	[Range(-1, 1)]
@@ -53,6 +37,11 @@ public class ProceduralEye : MonoBehaviour {
 	[Range(-1, 1)]
 	public float bottomOffset = -1;
 
+	[Range(0, 1)]
+	public float borderPercent;
+
+	public Color innerColor;
+	public Color borderColor;
 
 	//Triangle indices
 	private int[] tris = new int[6]{
@@ -60,9 +49,15 @@ public class ProceduralEye : MonoBehaviour {
 		1, 2, 3
 	};
 
+	//Is eye closed (used by blink controller)
+	[Range(0, 1)]
+	public float percentClosed;
 
 	public BlinkPointMode blinkPointMode;
 
+	//Point for closing eye towards
+	[Range(0, 1)]
+	public float closedPoint;
 
 	//Access clipping info (Hidden in inspector)
 	public float topSlope{get{ return slope (verts [0], verts [1]);}}
@@ -200,30 +195,4 @@ public class ProceduralEye : MonoBehaviour {
 		Fixed
 	}
 }
-
-
-//Try interesting outline effects
-/*Parabola:
-	Vector2[] ids = new Vector2[4] {
-		new Vector2(1-borderPercent, (1-topOffset)+borderPercent),
-		new Vector2(1-borderPercent, (1-topOffset)+borderPercent),
-		new Vector2(1-borderPercent, (botOffset)-borderPercent),
-		new Vector2(1-borderPercent, (botOffset)-borderPercent)
-	};
-
-Horizontal slit:
-	Vector2[] ids = new Vector2[4] {
-		new Vector2(1-borderPercent, (topOffset+1)+borderPercent),
-		new Vector2(1-borderPercent, (topOffset+1)+borderPercent),
-		new Vector2(1-borderPercent, (botOffset-1)-borderPercent),
-		new Vector2(1-borderPercent, (botOffset-1)-borderPercent)
-	};
-
-I don't even know:
-	Vector2[] ids = new Vector2[4] {
-		new Vector2(1-borderPercent, 1+((1-topMin)/(1-borderPercent))),
-		new Vector2(1-borderPercent, 1+((1-topMin)/(1-borderPercent))),
-		new Vector2(1-borderPercent, ((-1-botMax)/(1-borderPercent))-1),
-		new Vector2(1-borderPercent, ((-1-botMax)/(1-borderPercent))-1)
-	};
-*/
+}

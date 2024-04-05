@@ -39,6 +39,8 @@ also added a little demo scene with some fancy pixel filter and other effects (a
     - add optional mouth! that can be triggered to be happy or sad (just make it upside down and or scale it in y)
     compare https://www.youtube.com/watch?v=Fy0aCDmgnxg and world of goo!
     - https://forum.unity.com/threads/procedural-eyes.454758/ good ref! might steal!
+        - adding a mouth: using sdf in shader. look at https://bronsonzgeb.com/index.php/2022/01/15/drawing-with-sdfs-in-unity/ 
+            - https://iquilezles.org/articles/distfunctions2d/ might use the "tunnel"
 
 - A Verlet 2d rope simulation with a line renderer (tested in 2d, no collisions (yet?)) https://www.youtube.com/watch?v=PGk0rnyTa1U&t=299s
 

@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using System.Security.AccessControl;
-using UnityEngine.SocialPlatforms;
 
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
