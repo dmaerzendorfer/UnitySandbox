@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 11488734}
   - component: {fileID: 11434362}
   m_Layer: 0
-  m_Name: Face AA
+  m_Name: Eyes AA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

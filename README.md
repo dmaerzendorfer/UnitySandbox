@@ -29,18 +29,12 @@ also added a little demo scene with some fancy pixel filter and other effects (a
 
 - A little scene with a 2D ragdoll, it has a floaty player controller with no gravity
 
+- Procedural faces, since one only needs to add googly eyes to anything to make it better :3
+    - at first I wanted to implement it myself but I found this package which already does a great job: https://forum.unity.com/threads/procedural-eyes.454758/
+    - I merley fixed some bugs. Putting it here so i can easily use it whenever I need it :)
+
 
 ### Things I want to add in the future:
-
-- Eyes! a simple customizable system to add eyes to anything and everything, for juice purposes and to make stuff cute!
-    - maybe via a shader?
-    - options to follow/look at a transform
-    - let them blink!
-    - add optional mouth! that can be triggered to be happy or sad (just make it upside down and or scale it in y)
-    compare https://www.youtube.com/watch?v=Fy0aCDmgnxg and world of goo!
-    - https://forum.unity.com/threads/procedural-eyes.454758/ good ref! might steal!
-        - adding a mouth: using sdf in shader. look at https://bronsonzgeb.com/index.php/2022/01/15/drawing-with-sdfs-in-unity/ 
-            - https://iquilezles.org/articles/distfunctions2d/ might use the "tunnel"
 
 - A Verlet 2d rope simulation with a line renderer (tested in 2d, no collisions (yet?)) https://www.youtube.com/watch?v=PGk0rnyTa1U&t=299s
 
